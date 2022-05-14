@@ -13,7 +13,7 @@ import tech.gusgol.portabletrainer.db.AppDatabase
 import tech.gusgol.portabletrainer.domain.GetWorkoutsUseCase
 import tech.gusgol.portabletrainer.domain.InsertWorkoutUseCase
 import tech.gusgol.portabletrainer.ui.home.HomeViewModel
-import tech.gusgol.portabletrainer.ui.workouts.CreateWorkoutViewModel
+import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutViewModel
 
 object ServiceLocator {
 

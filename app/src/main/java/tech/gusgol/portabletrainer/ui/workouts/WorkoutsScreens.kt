@@ -27,6 +27,7 @@ import tech.gusgol.portabletrainer.ui.home.BottomNavigation
 import tech.gusgol.portabletrainer.ui.home.WorkoutsEmptyScreen
 import tech.gusgol.portabletrainer.ui.home.WorkoutsListScreen
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
+import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutUiState
 
 
 @Preview(showBackground = true)
