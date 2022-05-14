@@ -1,9 +1,9 @@
-package tech.gusgol.portabletrainer.ui.workouts
+package tech.gusgol.portabletrainer.ui.workouts.create
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutViewModel
+import tech.gusgol.portabletrainer.ui.workouts.CreateWorkoutScreen
 
 @Composable
 fun CreateWorkoutRoute(

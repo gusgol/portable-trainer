@@ -20,12 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
-import tech.gusgol.portabletrainer.model.Workout
 import tech.gusgol.portabletrainer.model.WorkoutIcon
 import tech.gusgol.portabletrainer.ui.home.BottomNavigation
-import tech.gusgol.portabletrainer.ui.home.WorkoutsEmptyScreen
-import tech.gusgol.portabletrainer.ui.home.WorkoutsListScreen
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutUiState
 

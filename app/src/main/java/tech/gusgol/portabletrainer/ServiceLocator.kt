@@ -2,9 +2,7 @@ package tech.gusgol.portabletrainer
 
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import tech.gusgol.portabletrainer.data.workouts.DefaultWorkoutsRepository
 import tech.gusgol.portabletrainer.data.workouts.WorkoutsDataSource
 import tech.gusgol.portabletrainer.data.workouts.WorkoutsLocalDataSource

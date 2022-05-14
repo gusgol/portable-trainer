@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import tech.gusgol.portabletrainer.ui.home.HomeRoute
 import tech.gusgol.portabletrainer.ui.home.HomeViewModel
-import tech.gusgol.portabletrainer.ui.workouts.CreateWorkoutRoute
+import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutRoute
 import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutViewModel
 
 @Composable
