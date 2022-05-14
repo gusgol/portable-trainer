@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Portable Trainer</string>
+    <string name="error_retrieve_workouts">Unable to retrieve your workouts</string>
+</resources>
