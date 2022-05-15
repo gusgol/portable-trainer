@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.sp
 import tech.gusgol.portabletrainer.model.WorkoutIcon
 import tech.gusgol.portabletrainer.ui.home.BottomNavigation
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
-import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutUiState
 
 
 @Preview(showBackground = true)
@@ -48,19 +47,10 @@ enum class CreateWorkoutSteps {
 
 @Composable
 fun CreateWorkoutScreen(
-    uiState: CreateWorkoutUiState,
     onCreateClicked: (String, WorkoutIcon) -> Unit
 ) {
     var step by remember { mutableStateOf(CreateWorkoutSteps.NAME)}
     var name: String? by rememberSaveable { mutableStateOf(null) }
-
-    val msg = when (uiState) {
-        is CreateWorkoutUiState.Success -> "Saved ${uiState.rowId}"
-        CreateWorkoutUiState.Error -> "Error"
-        CreateWorkoutUiState.Idle -> "Idle"
-        CreateWorkoutUiState.Loading -> "Loading"
-    }
-    Log.e("Creation", msg)
 
     Scaffold(
         topBar = {

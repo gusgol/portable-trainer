@@ -1,13 +1,10 @@
 package tech.gusgol.portabletrainer.ui.home
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -33,6 +30,7 @@ import tech.gusgol.portabletrainer.R
 import tech.gusgol.portabletrainer.model.Workout
 import tech.gusgol.portabletrainer.model.WorkoutIcon
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
+import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
 
 
 @Composable
@@ -51,13 +49,26 @@ fun HomeScreen(
                 }
             )
         },
+        floatingActionButton = {
+            if (homeState is HomeUiState.Success) {
+                SmallFloatingActionButton(
+                    onClick = {
+                        navController.navigate(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE)
+                    },
+                ) {
+                    Icon(Icons.Filled.Add, contentDescription = "Create workout")
+                }
+            }
+        },
         bottomBar = {
             BottomNavigation()
         }
     ) {
         when (homeState) {
             is HomeUiState.Empty -> WorkoutsEmptyScreen(navController)
-            is HomeUiState.Success -> WorkoutsListScreen(homeState.workouts)
+            is HomeUiState.Success -> WorkoutsListScreen(homeState.workouts) {
+                navController.navigate("${WorkDetailDestination.route}/${it.uid}")
+            }
         }
     }
 }
@@ -96,7 +107,7 @@ fun WorkoutsEmptyScreen(navController: NavController) {
         }
         Button(
             onClick = {
-                      navController.navigate(PortableTrainerDestinations.CREATE_WORKOUT_ROUTE)
+                navController.navigate(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE)
             },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -115,13 +126,16 @@ fun WorkoutsEmptyScreen(navController: NavController) {
 }
 
 @Composable
-fun WorkoutsListScreen(workouts: List<Workout>) {
+fun WorkoutsListScreen(
+    workouts: List<Workout>,
+    onCardClicked: (Workout) -> Unit
+) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items(workouts) { workout ->
-            WorkoutCard(workout)
+            WorkoutCard(workout, onCardClicked)
         }
     }
 
@@ -154,7 +168,7 @@ fun Preview() {
         name = "Workout 1",
         icon = WorkoutIcon.Biceps
     )
-    WorkoutCard(workout = workout)
+    WorkoutCard(workout = workout) {}
 }
 
 @Preview
@@ -186,10 +200,16 @@ fun Fonts() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WorkoutCard(workout: Workout) {
+fun WorkoutCard(
+    workout: Workout,
+    onCardClicked: (Workout) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable {
+                onCardClicked(workout)
+            }
     ) {
         Row(
             modifier = Modifier.padding(16.dp),

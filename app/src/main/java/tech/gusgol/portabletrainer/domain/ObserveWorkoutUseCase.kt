@@ -1,14 +1,12 @@
 package tech.gusgol.portabletrainer.domain
 
-import tech.gusgol.portabletrainer.data.Result
+import kotlinx.coroutines.flow.Flow
 import tech.gusgol.portabletrainer.data.workouts.WorkoutsRepository
 import tech.gusgol.portabletrainer.model.Workout
 
-class InsertWorkoutUseCase(
+class ObserveWorkoutUseCase(
     private val workoutsRepository: WorkoutsRepository
 ) {
-
-    suspend operator fun invoke(workout: Workout): Result<String> {
-        return workoutsRepository.insertWorkout(workout)
-    }
+    operator fun invoke(workoutId: String): Flow<Workout> =
+        workoutsRepository.getWorkoutStream(workoutId)
 }

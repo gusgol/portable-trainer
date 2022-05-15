@@ -10,8 +10,10 @@ import tech.gusgol.portabletrainer.data.workouts.WorkoutsRepository
 import tech.gusgol.portabletrainer.db.AppDatabase
 import tech.gusgol.portabletrainer.domain.GetWorkoutsUseCase
 import tech.gusgol.portabletrainer.domain.InsertWorkoutUseCase
+import tech.gusgol.portabletrainer.domain.ObserveWorkoutUseCase
 import tech.gusgol.portabletrainer.ui.home.HomeViewModel
 import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutViewModel
+import tech.gusgol.portabletrainer.ui.workouts.detail.WorkoutDetailViewModel
 
 object ServiceLocator {
 
@@ -44,6 +46,16 @@ object ServiceLocator {
                 )
             )
 
+        fun provideWorkoutDetailViewModelFactory(workoutId: String): ViewModelProvider.Factory =
+            WorkoutDetailViewModel.provideFactory(
+                provideObserveWorkoutUseCase(
+                    provideDefaultWorkoutsRepository(
+                        provideWorkoutsLocalDataSource()
+                    )
+                ),
+                workoutId
+            )
+
         private fun provideWorkoutsLocalDataSource(): WorkoutsLocalDataSource {
             return db?.let {
                 WorkoutsLocalDataSource(it.workoutDao())
@@ -62,6 +74,11 @@ object ServiceLocator {
 
         private fun provideInsertWorkoutUseCase(workoutsRepository: WorkoutsRepository) =
             InsertWorkoutUseCase(
+                workoutsRepository = workoutsRepository
+            )
+
+        private fun provideObserveWorkoutUseCase(workoutsRepository: WorkoutsRepository) =
+            ObserveWorkoutUseCase(
                 workoutsRepository = workoutsRepository
             )
     }

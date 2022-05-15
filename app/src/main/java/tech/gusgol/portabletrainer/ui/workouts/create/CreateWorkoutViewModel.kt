@@ -46,7 +46,7 @@ class CreateWorkoutViewModel(
 }
 
 sealed interface CreateWorkoutUiState {
-    data class Success(val rowId: Long) : CreateWorkoutUiState
+    data class Success(val uid: String) : CreateWorkoutUiState
     object Error : CreateWorkoutUiState
     object Loading : CreateWorkoutUiState
     object Idle: CreateWorkoutUiState
