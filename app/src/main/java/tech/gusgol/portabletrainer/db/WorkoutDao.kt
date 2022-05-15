@@ -11,7 +11,7 @@ interface WorkoutDao {
     fun getAll(): List<Workout>
 
     @Query("SELECT * FROM workout WHERE uid = :workoutId")
-    fun getWorkout(workoutId: String): Flow<Workout>
+    fun getWorkout(workoutId: String): Flow<Workout?>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(workout: Workout): Long

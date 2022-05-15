@@ -1,7 +1,7 @@
 package tech.gusgol.portabletrainer.ui.workouts.create
 
-import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
@@ -13,16 +13,16 @@ fun CreateWorkoutRoute(
     createWorkoutViewModel: CreateWorkoutViewModel,
     navController: NavController
 ) {
-    val uiState by createWorkoutViewModel.uiState.collectAsState()
-    when (uiState) {
-        is CreateWorkoutUiState.Success -> {
-            navController.navigate("${WorkDetailDestination.route}/${(uiState as CreateWorkoutUiState.Success).uid}")
+    val createState by createWorkoutViewModel.uiState.collectAsState()
+
+    (createState as? CreateWorkoutUiState.Success)?.let {
+        LaunchedEffect(Unit) {
+            navController.navigate("${WorkDetailDestination.route}/${it.uid}")
         }
-        CreateWorkoutUiState.Error -> Log.e("Save", "Error")
-        CreateWorkoutUiState.Idle -> Log.e("Save", "Idle")
-        CreateWorkoutUiState.Loading -> Log.e("Save", "Loading")
     }
+
     CreateWorkoutScreen(
+        createState,
         createWorkoutViewModel::insertWorkout
     )
 }

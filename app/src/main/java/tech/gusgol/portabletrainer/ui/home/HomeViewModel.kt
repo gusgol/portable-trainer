@@ -1,6 +1,5 @@
 package tech.gusgol.portabletrainer.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -70,13 +69,10 @@ class HomeViewModel(
         getWorkouts()
     }
 
-    fun getWorkouts() {
+    private fun getWorkouts() {
         viewModelState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             val result = getWorkoutsUseCase()
-
-            Log.e("Result", result.toString())
-
             viewModelState.update {
                 when (result) {
                     is Result.Success -> it.copy(workouts = result.data, isLoading = false)

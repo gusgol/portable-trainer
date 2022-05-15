@@ -12,7 +12,7 @@ import java.lang.Exception
 
 interface WorkoutsDataSource {
     suspend fun getWorkouts(): Result<List<Workout>>
-    fun getWorkoutStream(workoutId: String): Flow<Workout>
+    fun getWorkoutStream(workoutId: String): Flow<Workout?>
     suspend fun insertWorkout(workout: Workout): Result<String>
 }
 
@@ -32,7 +32,7 @@ class WorkoutsLocalDataSource(
     /**
      * TODO change to external entity
      */
-    override fun getWorkoutStream(workoutId: String): Flow<Workout> =
+    override fun getWorkoutStream(workoutId: String): Flow<Workout?> =
         workoutDao.getWorkout(workoutId)
 
     override suspend fun insertWorkout(workout: Workout): Result<String> = withContext(ioDispatcher) {

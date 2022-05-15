@@ -6,7 +6,7 @@ import tech.gusgol.portabletrainer.model.Workout
 
 interface WorkoutsRepository {
     suspend fun getWorkouts(): Result<List<Workout>>
-    fun getWorkoutStream(workoutId: String): Flow<Workout>
+    fun getWorkoutStream(workoutId: String): Flow<Workout?>
     suspend fun insertWorkout(workout: Workout): Result<String>
 }
 
@@ -16,7 +16,7 @@ class DefaultWorkoutsRepository(
 
     override suspend fun getWorkouts(): Result<List<Workout>> = localDataSource.getWorkouts()
 
-    override fun getWorkoutStream(workoutId: String): Flow<Workout> =
+    override fun getWorkoutStream(workoutId: String): Flow<Workout?> =
         localDataSource.getWorkoutStream(workoutId)
 
     override suspend fun insertWorkout(workout: Workout): Result<String> =

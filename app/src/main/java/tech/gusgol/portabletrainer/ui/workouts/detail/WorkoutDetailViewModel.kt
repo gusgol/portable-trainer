@@ -1,10 +1,12 @@
 package tech.gusgol.portabletrainer.ui.workouts.detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import tech.gusgol.portabletrainer.domain.ObserveWorkoutUseCase
 import tech.gusgol.portabletrainer.model.Workout
 
@@ -15,13 +17,10 @@ class WorkoutDetailViewModel(
 ) : ViewModel() {
 
     val uiState: StateFlow<WorkoutDetailUiState> = observeWorkoutUseCase(workoutId)
-        .map {
-            if (it != null) {
-                Log.e("uiState", it.name)
+        .map { workout ->
+            workout?.let {
                 WorkoutDetailUiState.Success(it)
-            } else {
-                WorkoutDetailUiState.Error
-            }
+            } ?: WorkoutDetailUiState.Error
         }
         .stateIn(
             viewModelScope,
