@@ -12,17 +12,17 @@ import tech.gusgol.core.model.Workout
     version = 1
 )
 @TypeConverters(Converters::class)
-abstract class AppDatabase : RoomDatabase() {
+abstract class PortableTrainerDatabase : RoomDatabase() {
 
     abstract fun workoutDao(): WorkoutDao
 }
 
 const val DB_NAME = "portable-trainer-db"
 
-fun provideDatabase(application: Application): AppDatabase {
+fun provideDatabase(application: Application): PortableTrainerDatabase {
     return Room.databaseBuilder(
         application,
-        AppDatabase::class.java,
+        PortableTrainerDatabase::class.java,
         DB_NAME
     ).build()
 }

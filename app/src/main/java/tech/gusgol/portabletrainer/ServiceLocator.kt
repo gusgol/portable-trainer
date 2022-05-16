@@ -6,7 +6,7 @@ import tech.gusgol.core.data.workouts.DefaultWorkoutsRepository
 import tech.gusgol.core.data.workouts.WorkoutsDataSource
 import tech.gusgol.core.data.workouts.WorkoutsLocalDataSource
 import tech.gusgol.core.data.workouts.WorkoutsRepository
-import tech.gusgol.core.db.AppDatabase
+import tech.gusgol.core.db.PortableTrainerDatabase
 import tech.gusgol.core.data.domain.GetWorkoutsUseCase
 import tech.gusgol.core.data.domain.InsertWorkoutUseCase
 import tech.gusgol.core.data.domain.ObserveWorkoutUseCase
@@ -17,7 +17,7 @@ import tech.gusgol.portabletrainer.ui.workouts.detail.WorkoutDetailViewModel
 
 object ServiceLocator {
 
-    private var db: AppDatabase? = null
+    private var db: PortableTrainerDatabase? = null
 
     fun init(application: Application) {
         db = provideDatabase(application)
