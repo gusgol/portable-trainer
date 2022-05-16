@@ -106,6 +106,7 @@ fun CreateWorkoutName(
         TextField(
             value = text,
             onValueChange = { text = it },
+            maxLines = 1,
             placeholder = {
                 Text(
                     "e.g. Workout A, leg day, etc",
@@ -113,7 +114,6 @@ fun CreateWorkoutName(
                     color = MaterialTheme.colorScheme.outline,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .fillMaxWidth()
                         .align(Alignment.CenterHorizontally)
                 )
             },
@@ -157,7 +157,9 @@ fun CreateWorkoutIcon(
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
-            modifier = Modifier.padding(horizontal = 40.dp)
+            modifier = Modifier
+                .width(324.dp)
+                .padding(horizontal = 40.dp)
         ) {
             items(WorkoutIcon.values()) { item ->
                 Box(
