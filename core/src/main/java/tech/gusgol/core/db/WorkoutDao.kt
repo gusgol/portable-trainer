@@ -1,8 +1,8 @@
-package tech.gusgol.portabletrainer.db
+package tech.gusgol.core.db
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import tech.gusgol.portabletrainer.model.Workout
+import tech.gusgol.core.model.Workout
 
 @Dao
 interface WorkoutDao {

@@ -1,6 +1,5 @@
 package tech.gusgol.portabletrainer.ui.workouts
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,7 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import tech.gusgol.portabletrainer.model.WorkoutIcon
+import tech.gusgol.core.model.WorkoutIcon
 import tech.gusgol.portabletrainer.ui.home.BottomNavigation
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutUiState
@@ -68,18 +67,22 @@ fun CreateWorkoutScreen(
         bottomBar = {
             BottomNavigation()
         }
-    ) {
-        when (step) {
-            CreateWorkoutSteps.NAME -> {
-                CreateWorkoutName {
-                    name = it
-                    step = CreateWorkoutSteps.ICON
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            when (step) {
+                CreateWorkoutSteps.NAME -> {
+                    CreateWorkoutName {
+                        name = it
+                        step = CreateWorkoutSteps.ICON
+                    }
                 }
-            }
-            CreateWorkoutSteps.ICON -> {
-                CreateWorkoutIcon { icon ->
-                    name?.let {
-                        onCreateClicked(it, icon)
+                CreateWorkoutSteps.ICON -> {
+                    CreateWorkoutIcon { icon ->
+                        name?.let {
+                            onCreateClicked(it, icon)
+                        }
                     }
                 }
             }

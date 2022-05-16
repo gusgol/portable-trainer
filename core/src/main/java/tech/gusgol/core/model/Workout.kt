@@ -1,4 +1,4 @@
-package tech.gusgol.portabletrainer.model
+package tech.gusgol.core.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

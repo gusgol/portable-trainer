@@ -1,7 +1,7 @@
-package tech.gusgol.portabletrainer.db
+package tech.gusgol.core.db
 
 import androidx.room.TypeConverter
-import tech.gusgol.portabletrainer.model.WorkoutIcon
+import tech.gusgol.core.model.WorkoutIcon
 
 class Converters {
 

@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import tech.gusgol.portabletrainer.data.Result
-import tech.gusgol.portabletrainer.domain.InsertWorkoutUseCase
-import tech.gusgol.portabletrainer.model.Workout
-import tech.gusgol.portabletrainer.model.WorkoutIcon
+import tech.gusgol.core.data.Result
+import tech.gusgol.core.data.domain.InsertWorkoutUseCase
+import tech.gusgol.core.model.Workout
+import tech.gusgol.core.model.WorkoutIcon
 
 class CreateWorkoutViewModel(
     private val insertWorkoutUseCase: InsertWorkoutUseCase

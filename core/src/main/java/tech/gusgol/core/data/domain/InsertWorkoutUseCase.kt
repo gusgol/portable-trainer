@@ -1,8 +1,8 @@
-package tech.gusgol.portabletrainer.domain
+package tech.gusgol.core.data.domain
 
-import tech.gusgol.portabletrainer.data.Result
-import tech.gusgol.portabletrainer.data.workouts.WorkoutsRepository
-import tech.gusgol.portabletrainer.model.Workout
+import tech.gusgol.core.data.Result
+import tech.gusgol.core.data.workouts.WorkoutsRepository
+import tech.gusgol.core.model.Workout
 
 class InsertWorkoutUseCase(
     private val workoutsRepository: WorkoutsRepository

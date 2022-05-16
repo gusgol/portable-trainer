@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import tech.gusgol.portabletrainer.ErrorMessage
 import tech.gusgol.portabletrainer.R
-import tech.gusgol.portabletrainer.data.Result
-import tech.gusgol.portabletrainer.domain.GetWorkoutsUseCase
-import tech.gusgol.portabletrainer.model.Workout
+import tech.gusgol.core.data.Result
+import tech.gusgol.core.data.domain.GetWorkoutsUseCase
+import tech.gusgol.core.model.Workout
 import java.util.*
 
 

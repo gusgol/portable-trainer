@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import tech.gusgol.portabletrainer.domain.ObserveWorkoutUseCase
-import tech.gusgol.portabletrainer.model.Workout
+import tech.gusgol.core.data.domain.ObserveWorkoutUseCase
+import tech.gusgol.core.model.Workout
 
 
 class WorkoutDetailViewModel(

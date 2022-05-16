@@ -2,15 +2,15 @@ package tech.gusgol.portabletrainer
 
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.Room
-import tech.gusgol.portabletrainer.data.workouts.DefaultWorkoutsRepository
-import tech.gusgol.portabletrainer.data.workouts.WorkoutsDataSource
-import tech.gusgol.portabletrainer.data.workouts.WorkoutsLocalDataSource
-import tech.gusgol.portabletrainer.data.workouts.WorkoutsRepository
-import tech.gusgol.portabletrainer.db.AppDatabase
-import tech.gusgol.portabletrainer.domain.GetWorkoutsUseCase
-import tech.gusgol.portabletrainer.domain.InsertWorkoutUseCase
-import tech.gusgol.portabletrainer.domain.ObserveWorkoutUseCase
+import tech.gusgol.core.data.workouts.DefaultWorkoutsRepository
+import tech.gusgol.core.data.workouts.WorkoutsDataSource
+import tech.gusgol.core.data.workouts.WorkoutsLocalDataSource
+import tech.gusgol.core.data.workouts.WorkoutsRepository
+import tech.gusgol.core.db.AppDatabase
+import tech.gusgol.core.data.domain.GetWorkoutsUseCase
+import tech.gusgol.core.data.domain.InsertWorkoutUseCase
+import tech.gusgol.core.data.domain.ObserveWorkoutUseCase
+import tech.gusgol.core.db.provideDatabase
 import tech.gusgol.portabletrainer.ui.home.HomeViewModel
 import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutViewModel
 import tech.gusgol.portabletrainer.ui.workouts.detail.WorkoutDetailViewModel
@@ -20,11 +20,7 @@ object ServiceLocator {
     private var db: AppDatabase? = null
 
     fun init(application: Application) {
-        db = Room.databaseBuilder(
-            application,
-            AppDatabase::class.java,
-            "portable-trainer-db"
-        ).build()
+        db = provideDatabase(application)
     }
 
     object Workouts {

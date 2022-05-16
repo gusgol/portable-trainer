@@ -1,4 +1,4 @@
-package tech.gusgol.portabletrainer.model
+package tech.gusgol.core.model
 
 enum class WorkoutIcon(val icon: String) {
     Biceps("💪"),

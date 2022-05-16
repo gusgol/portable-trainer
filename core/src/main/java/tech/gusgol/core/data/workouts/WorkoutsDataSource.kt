@@ -1,12 +1,12 @@
-package tech.gusgol.portabletrainer.data.workouts
+package tech.gusgol.core.data.workouts
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import tech.gusgol.portabletrainer.data.Result
-import tech.gusgol.portabletrainer.db.WorkoutDao
-import tech.gusgol.portabletrainer.model.Workout
+import tech.gusgol.core.data.Result
+import tech.gusgol.core.db.WorkoutDao
+import tech.gusgol.core.model.Workout
 import java.io.IOException
 import java.lang.Exception
 

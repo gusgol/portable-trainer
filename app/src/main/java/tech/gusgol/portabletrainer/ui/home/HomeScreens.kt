@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import tech.gusgol.portabletrainer.PortableTrainerDestinations
 import tech.gusgol.portabletrainer.R
-import tech.gusgol.portabletrainer.model.Workout
-import tech.gusgol.portabletrainer.model.WorkoutIcon
+import tech.gusgol.core.model.Workout
+import tech.gusgol.core.model.WorkoutIcon
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
 
@@ -63,11 +63,15 @@ fun HomeScreen(
         bottomBar = {
             BottomNavigation()
         }
-    ) {
-        when (homeState) {
-            is HomeUiState.Empty -> WorkoutsEmptyScreen(navController)
-            is HomeUiState.Success -> WorkoutsListScreen(homeState.workouts) {
-                navController.navigate("${WorkDetailDestination.route}/${it.uid}")
+    ) { innerPadding ->
+        Box(
+            Modifier.padding(innerPadding)
+        ){
+            when (homeState) {
+                is HomeUiState.Empty -> WorkoutsEmptyScreen(navController)
+                is HomeUiState.Success -> WorkoutsListScreen(homeState.workouts) {
+                    navController.navigate("${WorkDetailDestination.route}/${it.uid}")
+                }
             }
         }
     }
