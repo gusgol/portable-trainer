@@ -1,20 +1,26 @@
 package tech.gusgol.portabletrainer.ui.workouts.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import tech.gusgol.core.data.domain.ObserveWorkoutUseCase
 import tech.gusgol.core.model.Workout
+import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
+import javax.inject.Inject
 
-
-class WorkoutDetailViewModel(
-    observeWorkoutUseCase: ObserveWorkoutUseCase,
-    workoutId: String
+@HiltViewModel
+class WorkoutDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    observeWorkoutUseCase: ObserveWorkoutUseCase
 ) : ViewModel() {
+
+    private val workoutId: String = checkNotNull(savedStateHandle[WorkDetailDestination.workoutIdArg])
 
     val uiState: StateFlow<WorkoutDetailUiState> = observeWorkoutUseCase(workoutId)
         .map { workout ->
@@ -27,18 +33,6 @@ class WorkoutDetailViewModel(
             SharingStarted.Eagerly,
             WorkoutDetailUiState.Loading
         )
-
-    companion object {
-        fun provideFactory(
-            observeWorkoutUseCase: ObserveWorkoutUseCase,
-            workoutId: String
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return WorkoutDetailViewModel(observeWorkoutUseCase, workoutId) as T
-            }
-        }
-    }
 }
 
 sealed interface WorkoutDetailUiState {

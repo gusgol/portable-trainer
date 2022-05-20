@@ -6,7 +6,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import tech.gusgol.portabletrainer.PortableTrainerDestination
-import tech.gusgol.portabletrainer.ServiceLocator
 import tech.gusgol.portabletrainer.ui.workouts.detail.WorkoutDetailRoute
 import tech.gusgol.portabletrainer.ui.workouts.detail.WorkoutDetailViewModel
 
@@ -24,11 +23,11 @@ fun NavGraphBuilder.workoutsGraph() {
             }
         )
     ) { backStackEntry ->
-        val workoutId: String =
-            backStackEntry.arguments?.getString(WorkDetailDestination.workoutIdArg).orEmpty()
-        val viewModel: WorkoutDetailViewModel = viewModel(
-            factory = ServiceLocator.Workouts.provideWorkoutDetailViewModelFactory(workoutId)
-        )
-        WorkoutDetailRoute(workoutDetailViewModel = viewModel)
+//        val workoutId: String =
+//            backStackEntry.arguments?.getString(WorkDetailDestination.workoutIdArg).orEmpty()
+//        val viewModel: WorkoutDetailViewModel = viewModel(
+//            factory = ServiceLocator.Workouts.provideWorkoutDetailViewModelFactory(workoutId)
+//        )
+        WorkoutDetailRoute()
     }
 }
