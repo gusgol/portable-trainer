@@ -26,11 +26,7 @@ fun PortableTrainerNavGraph(
         startDestination = startDestination
     ) {
         composable(PortableTrainerDestinations.HOME_ROUTE) {
-            val viewModel: HomeViewModel = viewModel(
-                factory = ServiceLocator.Workouts.provideHomeViewModelFactory()
-            )
-
-            HomeRoute(viewModel, navController)
+            HomeRoute(navController)
         }
         composable(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE) {
             val viewModel: CreateWorkoutViewModel = viewModel(

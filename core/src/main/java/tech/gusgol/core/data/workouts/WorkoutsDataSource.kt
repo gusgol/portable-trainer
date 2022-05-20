@@ -9,6 +9,7 @@ import tech.gusgol.core.db.WorkoutDao
 import tech.gusgol.core.model.Workout
 import java.io.IOException
 import java.lang.Exception
+import javax.inject.Inject
 
 interface WorkoutsDataSource {
     suspend fun getWorkouts(): Result<List<Workout>>
@@ -16,7 +17,7 @@ interface WorkoutsDataSource {
     suspend fun insertWorkout(workout: Workout): Result<String>
 }
 
-class WorkoutsLocalDataSource(
+class WorkoutsLocalDataSource @Inject constructor(
     private val workoutDao: WorkoutDao,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : WorkoutsDataSource {

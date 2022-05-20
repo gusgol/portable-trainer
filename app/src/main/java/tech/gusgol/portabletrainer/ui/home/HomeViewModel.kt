@@ -3,6 +3,7 @@ package tech.gusgol.portabletrainer.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import tech.gusgol.portabletrainer.ErrorMessage
@@ -11,6 +12,7 @@ import tech.gusgol.core.data.Result
 import tech.gusgol.core.data.domain.GetWorkoutsUseCase
 import tech.gusgol.core.model.Workout
 import java.util.*
+import javax.inject.Inject
 
 
 sealed interface HomeUiState {
@@ -51,7 +53,8 @@ private data class HomeViewModelState(
         }
 }
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val getWorkoutsUseCase: GetWorkoutsUseCase
 ) : ViewModel() {
 

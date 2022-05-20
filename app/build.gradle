@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -63,6 +65,11 @@ dependencies {
 
     def accompanist_version = "0.24.7-alpha"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+
+    def hilt_version = "2.41"
+    api "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    api "androidx.hilt:hilt-navigation-compose:1.0.0"
 
 
     testImplementation 'junit:junit:4.13.2'
