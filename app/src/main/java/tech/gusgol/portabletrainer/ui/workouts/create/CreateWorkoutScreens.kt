@@ -1,4 +1,4 @@
-package tech.gusgol.portabletrainer.ui.workouts
+package tech.gusgol.portabletrainer.ui.workouts.create
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

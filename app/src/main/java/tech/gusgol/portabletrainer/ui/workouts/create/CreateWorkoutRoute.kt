@@ -6,7 +6,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import tech.gusgol.portabletrainer.ui.workouts.CreateWorkoutScreen
 import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
 
 @Composable
