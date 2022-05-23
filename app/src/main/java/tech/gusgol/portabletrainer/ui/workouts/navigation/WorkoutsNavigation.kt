@@ -14,7 +14,9 @@ object WorkDetailDestination : PortableTrainerDestination {
     const val workoutIdArg = "workoutId"
 }
 
-fun NavGraphBuilder.workoutsGraph() {
+fun NavGraphBuilder.workoutsGraph(
+    onBackClick: () -> Unit
+) {
     composable(
         route = "${WorkDetailDestination.route}/{${WorkDetailDestination.workoutIdArg}}",
         arguments = listOf(
@@ -22,12 +24,7 @@ fun NavGraphBuilder.workoutsGraph() {
                 type = NavType.StringType
             }
         )
-    ) { backStackEntry ->
-//        val workoutId: String =
-//            backStackEntry.arguments?.getString(WorkDetailDestination.workoutIdArg).orEmpty()
-//        val viewModel: WorkoutDetailViewModel = viewModel(
-//            factory = ServiceLocator.Workouts.provideWorkoutDetailViewModelFactory(workoutId)
-//        )
-        WorkoutDetailRoute()
+    ) {
+        WorkoutDetailRoute(onBackClick)
     }
 }

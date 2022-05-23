@@ -31,6 +31,6 @@ fun PortableTrainerNavGraph(
         composable(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE) {
             CreateWorkoutRoute(navController)
         }
-        workoutsGraph()
+        workoutsGraph { navController.popBackStack() }
     }
 }

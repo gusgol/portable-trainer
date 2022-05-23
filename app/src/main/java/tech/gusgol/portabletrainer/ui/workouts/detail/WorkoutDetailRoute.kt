@@ -7,8 +7,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun WorkoutDetailRoute(
+    onBackClick: () -> Unit,
     workoutDetailViewModel: WorkoutDetailViewModel = hiltViewModel()
 ) {
     val detailState by workoutDetailViewModel.uiState.collectAsState()
-    WorkoutDetailScreen(detailUiState = detailState)
+    WorkoutDetailScreen(detailUiState = detailState, onBackClick)
 }
