@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -21,18 +20,17 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import tech.gusgol.portabletrainer.PortableTrainerDestinations
 import tech.gusgol.portabletrainer.R
 import tech.gusgol.core.model.Workout
-import tech.gusgol.core.model.WorkoutIcon
-import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
+import androidx.compose.material3.Scaffold
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     homeState: HomeUiState,
@@ -135,8 +133,8 @@ fun WorkoutsListScreen(
     onCardClicked: (Workout) -> Unit
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         items(workouts) { workout ->
             WorkoutCard(workout, onCardClicked)
@@ -153,50 +151,16 @@ fun BottomNavigation() {
         Pair("Archive", Icons.Filled.Archive),
     )
 
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.surface,
+        tonalElevation = 0.dp
+    ) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 icon = { Icon(item.second, contentDescription = null) },
                 selected = selectedItem == index,
                 onClick = { selectedItem = index }
             )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    val workout = Workout(
-        uid = "",
-        name = "Workout 1",
-        icon = WorkoutIcon.Biceps
-    )
-    WorkoutCard(workout = workout) {}
-}
-
-@Preview
-@Composable
-fun Fonts() {
-    val dummy = "The lazy fox juumps"
-    PortableTrainerTheme {
-        Column {
-            Text("s")
-            Text(dummy, style = MaterialTheme.typography.headlineLarge)
-            Text(dummy, style = MaterialTheme.typography.headlineMedium)
-            Text(dummy, style = MaterialTheme.typography.headlineSmall)
-            Text(dummy, style = MaterialTheme.typography.titleLarge)
-            Text(dummy, style = MaterialTheme.typography.titleMedium)
-            Text(dummy, style = MaterialTheme.typography.titleSmall)
-            Text(dummy, style = MaterialTheme.typography.bodyLarge)
-            Text(dummy, style = MaterialTheme.typography.bodyMedium)
-            Text(dummy, style = MaterialTheme.typography.bodySmall)
-            Text(dummy, style = MaterialTheme.typography.displayLarge)
-            Text(dummy, style = MaterialTheme.typography.displayMedium)
-            Text(dummy, style = MaterialTheme.typography.displaySmall)
-            Text(dummy, style = MaterialTheme.typography.labelLarge)
-            Text(dummy, style = MaterialTheme.typography.labelMedium)
-            Text(dummy, style = MaterialTheme.typography.labelSmall)
         }
     }
 }
@@ -209,11 +173,10 @@ fun WorkoutCard(
     onCardClicked: (Workout) -> Unit
 ) {
     Card(
+        onClick = { onCardClicked(workout) },
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                onCardClicked(workout)
-            }
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -222,7 +185,7 @@ fun WorkoutCard(
             Box(
                 modifier = Modifier
                     .size(48.dp)
-                    .background(MaterialTheme.colorScheme.onTertiary, shape = CircleShape),
+                    .background(MaterialTheme.colorScheme.secondaryContainer, shape = CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Text(workout.icon.icon, fontSize = 20.sp)
