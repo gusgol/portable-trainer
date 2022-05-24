@@ -107,7 +107,7 @@ fun WorkoutsEmptyScreen(navController: NavController) {
                 modifier = Modifier.padding(16.dp)
             )
         }
-        Button(
+        FilledTonalButton(
             onClick = {
                 navController.navigate(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE)
             },

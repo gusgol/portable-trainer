@@ -137,7 +137,7 @@ fun CreateWorkoutName(
             ),
             modifier = Modifier.padding(horizontal = 16.dp)
         )
-        Button(
+        FilledTonalButton(
             onClick = { onNameConfirmed(text) },
             enabled = text.isNotBlank(),
             modifier = Modifier.padding(top = 32.dp),
@@ -205,7 +205,7 @@ fun CreateWorkoutIcon(
 
             }
         }
-        Button(
+        FilledTonalButton(
             onClick = {
                 selected?.let { onIconConfirmed(it) }
             },
