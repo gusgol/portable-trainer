@@ -124,7 +124,7 @@ fun CreateWorkoutName(
                 )
             },
             colors = TextFieldDefaults.textFieldColors(
-//                backgroundColor = Color.Transparent,
+                containerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
@@ -184,9 +184,9 @@ fun CreateWorkoutIcon(
                             .size(48.dp)
                             .background(
                                 color = if (selected == item) {
-                                    MaterialTheme.colorScheme.secondary
+                                    MaterialTheme.colorScheme.secondaryContainer
                                 } else {
-                                    MaterialTheme.colorScheme.surfaceVariant
+                                    MaterialTheme.colorScheme.inverseOnSurface
                                 },
                                 shape = CircleShape
                             )
