@@ -1,7 +1,6 @@
 package tech.gusgol.portabletrainer.ui.workouts.create
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,17 +33,6 @@ class CreateWorkoutViewModel @Inject constructor(
             _uiState.value = when(result) {
                 is Result.Success -> CreateWorkoutUiState.Success(result.data)
                 is Result.Error -> CreateWorkoutUiState.Error
-            }
-        }
-    }
-
-    companion object {
-        fun provideFactory(
-            insertWorkoutUseCase: InsertWorkoutUseCase,
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return CreateWorkoutViewModel(insertWorkoutUseCase) as T
             }
         }
     }
