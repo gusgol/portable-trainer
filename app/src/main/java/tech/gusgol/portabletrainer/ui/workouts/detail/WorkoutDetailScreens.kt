@@ -2,6 +2,7 @@ package tech.gusgol.portabletrainer.ui.workouts.detail
 
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.BottomSheetState
@@ -28,13 +29,17 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import tech.gusgol.core.model.Exercise
 import tech.gusgol.portabletrainer.PortableTrainerDestinations
+import java.time.format.TextStyle
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun WorkoutDetailScreen(
     detailUiState: WorkoutDetailUiState,
+    onSubmit: (String, Int?, Int?, Int?) -> Unit,
     onBackClick: () -> Unit
 ) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
@@ -104,16 +109,20 @@ fun WorkoutDetailScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     var name by rememberSaveable { mutableStateOf("") }
+                    var sets by rememberSaveable { mutableStateOf("") }
                     var reps by rememberSaveable { mutableStateOf("") }
                     var weight by rememberSaveable { mutableStateOf("") }
-                    var sets by remember { mutableStateOf(0f) }
+
+                    val submit = {
+                        onSubmit(name, sets.toIntOrNull(), reps.toIntOrNull(), weight.toIntOrNull())
+                    }
 
                     SmallTopAppBar(
                         title = {
                             Text("Add exercise", style = MaterialTheme.typography.titleMedium)
                         },
                         actions = {
-                            IconButton(onClick = { /* doSomething() */ }) {
+                            IconButton(onClick = { submit() }) {
                                 Icon(
                                     imageVector = Icons.Filled.Check,
                                     contentDescription = "Save"
@@ -130,38 +139,33 @@ fun WorkoutDetailScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                     )
-
-                    Column(
-                        modifier = Modifier.padding(top = 8.dp).padding(horizontal = 16.dp)
-                    ) {
-//                            Text(text = sets.toString())
-                        Text("Sets", style = MaterialTheme.typography.bodyLarge)
-                        Slider(
-                            value = sets,
-                            onValueChange = { sets = it },
-                            valueRange = 1f..10f,
-                            onValueChangeFinished = {
-                                // launch some business logic update with the state you hold
-                                // viewModel.updateSelectedSliderValue(sliderPosition)
-                            },
-                            steps = 9
-                        )
-                    }
-
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                     ) {
                         PTOutlinedTextField(
+                            value = sets,
+                            onValueChange = { sets = it },
+                            label = "Sets",
+                            keyboardOptions = KeyboardOptions(
+                                imeAction = ImeAction.Next,
+                                keyboardType = KeyboardType.Number
+                            ),
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        PTOutlinedTextField(
                             value = reps,
-                            onValueChange = { weight = it },
+                            onValueChange = { reps = it },
                             label = "Reps",
                             keyboardOptions = KeyboardOptions(
                                 imeAction = ImeAction.Next,
                                 keyboardType = KeyboardType.Number
                             ),
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Center
                         )
                         Spacer(Modifier.width(8.dp))
                         PTOutlinedTextField(
@@ -169,10 +173,14 @@ fun WorkoutDetailScreen(
                             onValueChange = { weight = it },
                             label = "Weight",
                             keyboardOptions = KeyboardOptions(
-                                imeAction = ImeAction.Next,
+                                imeAction = ImeAction.Go,
                                 keyboardType = KeyboardType.Number
                             ),
-                            modifier = Modifier.weight(1f)
+                            keyboardActions = KeyboardActions (
+                              onGo = { submit() }
+                            ),
+                            modifier = Modifier.weight(1f),
+                            textAlign = TextAlign.Center
                         )
                     }
 
@@ -191,11 +199,13 @@ fun WorkoutDetailScreen(
 
 @Composable
 fun PTOutlinedTextField(
+    modifier: Modifier = Modifier,
     value: String,
     label: String,
     onValueChange: (String) -> Unit,
-    keyboardOptions: KeyboardOptions,
-    modifier: Modifier
+    textAlign: TextAlign = TextAlign.Start,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
     OutlinedTextField(
         value = value,
@@ -203,9 +213,13 @@ fun PTOutlinedTextField(
         label = { Text(label) },
         singleLine = true,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         modifier = modifier,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedBorderColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        textStyle = LocalTextStyle.current.copy(
+            textAlign = textAlign
         )
     )
 }

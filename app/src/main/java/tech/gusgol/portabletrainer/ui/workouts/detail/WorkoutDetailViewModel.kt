@@ -1,5 +1,6 @@
 package tech.gusgol.portabletrainer.ui.workouts.detail
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import tech.gusgol.core.data.domain.ObserveWorkoutUseCase
+import tech.gusgol.core.model.Exercise
 import tech.gusgol.core.model.Workout
 import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
 import javax.inject.Inject
@@ -33,6 +35,11 @@ class WorkoutDetailViewModel @Inject constructor(
             SharingStarted.Eagerly,
             WorkoutDetailUiState.Loading
         )
+
+    fun addExercise(name: String, sets: Int?, reps: Int?, weight: Int?) {
+        val exercise = Exercise(name, sets, reps, weight)
+        Log.e("Created", exercise.name)
+    }
 }
 
 sealed interface WorkoutDetailUiState {
