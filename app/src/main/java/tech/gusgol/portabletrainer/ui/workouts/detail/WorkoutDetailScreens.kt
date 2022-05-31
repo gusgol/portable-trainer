@@ -103,14 +103,19 @@ fun WorkoutDetailScreen(
                     var sets by rememberSaveable { mutableStateOf("") }
                     var reps by rememberSaveable { mutableStateOf("") }
                     var weight by rememberSaveable { mutableStateOf("") }
+                    var isFormValid by remember { mutableStateOf(true) }
 
                     val submit = {
-                        onSubmit(name, sets.toIntOrNull(), reps.toIntOrNull(), weight.toIntOrNull())
-                        toggleExerciseSheet(coroutineScope, bottomSheetScaffoldState)
-                        name = ""
-                        sets = ""
-                        reps = ""
-                        weight = ""
+                        if (name.isNotBlank()) {
+                            onSubmit(name, sets.toIntOrNull(), reps.toIntOrNull(), weight.toIntOrNull())
+                            toggleExerciseSheet(coroutineScope, bottomSheetScaffoldState)
+                            name = ""
+                            sets = ""
+                            reps = ""
+                            weight = ""
+                        } else {
+                            isFormValid = false
+                        }
                     }
 
                     SmallTopAppBar(
@@ -131,6 +136,7 @@ fun WorkoutDetailScreen(
                         onValueChange = { name = it },
                         label = "Name",
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                        isError = !isFormValid,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
@@ -259,6 +265,7 @@ fun PTOutlinedTextField(
     label: String,
     onValueChange: (String) -> Unit,
     textAlign: TextAlign = TextAlign.Start,
+    isError: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
@@ -275,6 +282,7 @@ fun PTOutlinedTextField(
         ),
         textStyle = LocalTextStyle.current.copy(
             textAlign = textAlign
-        )
+        ),
+        isError = isError
     )
 }
