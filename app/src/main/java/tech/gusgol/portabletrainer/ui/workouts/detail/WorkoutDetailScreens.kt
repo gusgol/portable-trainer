@@ -30,7 +30,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.CoroutineScope
 import tech.gusgol.core.model.Exercise
-import tech.gusgol.portabletrainer.ui.home.WorkoutCard
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 
 
@@ -46,9 +45,8 @@ fun WorkoutDetailScreen(
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(decayAnimationSpec)
     }
 
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
-    )
+    val addExerciseBottomSheet = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
@@ -84,20 +82,20 @@ fun WorkoutDetailScreen(
         floatingActionButton = {
             SmallFloatingActionButton(
                 onClick = {
-                    toggleExerciseSheet(coroutineScope, bottomSheetScaffoldState)
+                    toggleExerciseSheet(coroutineScope, addExerciseBottomSheet)
                 },
             ) {
                 Icon(Icons.Filled.Add, contentDescription = "Create workout")
             }
         }
     ) { innerPadding ->
-        BottomSheetScaffold(
-            scaffoldState = bottomSheetScaffoldState,
-            sheetPeekHeight = 0.dp,
-            backgroundColor = MaterialTheme.colorScheme.background,
+        ModalBottomSheetLayout(
+            sheetState = addExerciseBottomSheet,
+            sheetElevation = 8.dp,
             sheetContent = {
                 Column(
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 64.dp)
+                    modifier = Modifier
+                        .fillMaxSize()
                 ) {
                     var name by rememberSaveable { mutableStateOf("") }
                     var sets by rememberSaveable { mutableStateOf("") }
@@ -108,7 +106,7 @@ fun WorkoutDetailScreen(
                     val submit = {
                         if (name.isNotBlank()) {
                             onSubmit(name, sets.toIntOrNull(), reps.toIntOrNull(), weight.toIntOrNull())
-                            toggleExerciseSheet(coroutineScope, bottomSheetScaffoldState)
+                            toggleExerciseSheet(coroutineScope, addExerciseBottomSheet)
                             name = ""
                             sets = ""
                             reps = ""
@@ -179,7 +177,7 @@ fun WorkoutDetailScreen(
                                 keyboardType = KeyboardType.Number
                             ),
                             keyboardActions = KeyboardActions (
-                              onGo = { submit() }
+                                onGo = { submit() }
                             ),
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center
@@ -241,19 +239,16 @@ fun ExerciseCardPreview() {
     }
 }
 
-
 @OptIn(ExperimentalMaterialApi::class)
 private fun toggleExerciseSheet(
     coroutineScope: CoroutineScope,
-    bottomSheetScaffoldState: BottomSheetScaffoldState
+    bottomSheetState: ModalBottomSheetState
 ) {
     coroutineScope.launch {
-        with(bottomSheetScaffoldState.bottomSheetState) {
-            if (isCollapsed) {
-                expand()
-            } else {
-                collapse()
-            }
+        if(bottomSheetState.currentValue == ModalBottomSheetValue.Hidden) {
+            bottomSheetState.show()
+        } else {
+            bottomSheetState.hide()
         }
     }
 }
