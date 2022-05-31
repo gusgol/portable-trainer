@@ -10,7 +10,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import tech.gusgol.core.data.domain.InsertExerciseUseCase
 import tech.gusgol.core.data.domain.ObserveWorkoutUseCase
+import tech.gusgol.core.data.domain.ObserveWorkoutWithExercisesUseCase
 import tech.gusgol.core.model.Exercise
 import tech.gusgol.core.model.Workout
 import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
@@ -19,16 +22,21 @@ import javax.inject.Inject
 @HiltViewModel
 class WorkoutDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    observeWorkoutUseCase: ObserveWorkoutUseCase
+    observeWorkoutWithExercisesUseCase: ObserveWorkoutWithExercisesUseCase,
+    private val insertExerciseUseCase: InsertExerciseUseCase
 ) : ViewModel() {
 
     private val workoutId: String = checkNotNull(savedStateHandle[WorkDetailDestination.workoutIdArg])
 
-    val uiState: StateFlow<WorkoutDetailUiState> = observeWorkoutUseCase(workoutId)
-        .map { workout ->
-            workout?.let {
-                WorkoutDetailUiState.Success(it)
-            } ?: WorkoutDetailUiState.Error
+    val uiState: StateFlow<WorkoutDetailUiState> = observeWorkoutWithExercisesUseCase(workoutId)
+        .map {
+            if (it.isNotEmpty()) {
+                with (it.first()) {
+                    WorkoutDetailUiState.Success(workout, exercises)
+                }
+            } else {
+                WorkoutDetailUiState.Error
+            }
         }
         .stateIn(
             viewModelScope,
@@ -37,13 +45,23 @@ class WorkoutDetailViewModel @Inject constructor(
         )
 
     fun addExercise(name: String, sets: Int?, reps: Int?, weight: Int?) {
-        val exercise = Exercise(name, sets, reps, weight)
-        Log.e("Created", exercise.name)
+        val exercise = Exercise(
+            name = name,
+            workoutId = workoutId,
+            sets = sets,
+            reps = reps,
+            weight = weight
+        )
+        viewModelScope.launch {
+            insertExerciseUseCase(exercise)
+        }
     }
 }
 
 sealed interface WorkoutDetailUiState {
-    data class Success(val workout: Workout) : WorkoutDetailUiState
+    data class Success(
+        val workout: Workout,
+        val exercises: List<Exercise>) : WorkoutDetailUiState
     object Loading : WorkoutDetailUiState
     object Error : WorkoutDetailUiState
 }

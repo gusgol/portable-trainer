@@ -2,27 +2,24 @@ package tech.gusgol.portabletrainer.ui.workouts.detail
 
 import androidx.compose.animation.rememberSplineBasedDecay
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.BottomSheetState
-import androidx.compose.material.BottomSheetValue
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.TextFieldColors
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
@@ -30,9 +27,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import kotlinx.coroutines.CoroutineScope
 import tech.gusgol.core.model.Exercise
-import tech.gusgol.portabletrainer.PortableTrainerDestinations
-import java.time.format.TextStyle
+import tech.gusgol.portabletrainer.ui.home.WorkoutCard
+import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -85,15 +84,7 @@ fun WorkoutDetailScreen(
         floatingActionButton = {
             SmallFloatingActionButton(
                 onClick = {
-                    coroutineScope.launch {
-                        with(bottomSheetScaffoldState.bottomSheetState) {
-                            if (isCollapsed) {
-                                expand()
-                            } else {
-                                collapse()
-                            }
-                        }
-                    }
+                    toggleExerciseSheet(coroutineScope, bottomSheetScaffoldState)
                 },
             ) {
                 Icon(Icons.Filled.Add, contentDescription = "Create workout")
@@ -106,7 +97,7 @@ fun WorkoutDetailScreen(
             backgroundColor = MaterialTheme.colorScheme.background,
             sheetContent = {
                 Column(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 64.dp)
                 ) {
                     var name by rememberSaveable { mutableStateOf("") }
                     var sets by rememberSaveable { mutableStateOf("") }
@@ -115,6 +106,11 @@ fun WorkoutDetailScreen(
 
                     val submit = {
                         onSubmit(name, sets.toIntOrNull(), reps.toIntOrNull(), weight.toIntOrNull())
+                        toggleExerciseSheet(coroutineScope, bottomSheetScaffoldState)
+                        name = ""
+                        sets = ""
+                        reps = ""
+                        weight = ""
                     }
 
                     SmallTopAppBar(
@@ -189,9 +185,68 @@ fun WorkoutDetailScreen(
             modifier = Modifier.padding(innerPadding)
         ) {
             when (detailUiState) {
-                is WorkoutDetailUiState.Success -> Text(text = detailUiState.workout.name)
+                is WorkoutDetailUiState.Success -> ExercisesListScreen(exercises = detailUiState.exercises)
                 WorkoutDetailUiState.Error -> Text("Failed to load your workout")
                 WorkoutDetailUiState.Loading -> CircularProgressIndicator()
+            }
+        }
+    }
+}
+
+@Composable
+fun ExercisesListScreen(exercises: List<Exercise>) {
+    LazyColumn(
+        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        items(exercises) { exercise ->
+            ExerciseCard(exercise = exercise)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ExerciseCard(exercise: Exercise) {
+    Card(
+        onClick = {  },
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Column {
+                Text(text = "Name", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
+                Text(text = exercise.name, style = MaterialTheme.typography.bodyLarge)
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ExerciseCardPreview() {
+    PortableTrainerTheme {
+        ExerciseCard(exercise = Exercise(
+            "", "Pull up", 5, 5, 5, ""
+        ))
+    }
+}
+
+
+@OptIn(ExperimentalMaterialApi::class)
+private fun toggleExerciseSheet(
+    coroutineScope: CoroutineScope,
+    bottomSheetScaffoldState: BottomSheetScaffoldState
+) {
+    coroutineScope.launch {
+        with(bottomSheetScaffoldState.bottomSheetState) {
+            if (isCollapsed) {
+                expand()
+            } else {
+                collapse()
             }
         }
     }
