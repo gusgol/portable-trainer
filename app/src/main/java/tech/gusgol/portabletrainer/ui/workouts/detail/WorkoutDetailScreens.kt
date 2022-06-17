@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
@@ -80,12 +81,17 @@ fun WorkoutDetailScreen(
             )
         },
         floatingActionButton = {
-            SmallFloatingActionButton(
-                onClick = {
-                    toggleExerciseSheet(coroutineScope, addExerciseBottomSheet)
-                },
-            ) {
-                Icon(Icons.Filled.Add, contentDescription = "Create workout")
+            if (addExerciseBottomSheet.currentValue == ModalBottomSheetValue.Hidden) {
+                SmallFloatingActionButton(
+                    onClick = {
+                        toggleExerciseSheet(coroutineScope, addExerciseBottomSheet)
+                    },
+                    elevation = FloatingActionButtonDefaults.elevation(
+                        defaultElevation = 0.dp
+                    ),
+                ) {
+                    Icon(Icons.Filled.Add, contentDescription = "Create workout")
+                }
             }
         }
     ) { innerPadding ->
