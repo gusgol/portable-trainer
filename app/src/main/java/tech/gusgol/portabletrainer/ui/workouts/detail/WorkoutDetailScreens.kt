@@ -1,9 +1,11 @@
 package tech.gusgol.portabletrainer.ui.workouts.detail
 
 import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -25,6 +27,9 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -224,14 +229,40 @@ fun ExerciseCard(exercise: Exercise) {
         modifier = Modifier
             .fillMaxWidth()
     ) {
+
+
         Row(
             modifier = Modifier.padding(16.dp)
         ) {
-            Column {
+            Column(
+                modifier = Modifier.weight(1.0f)
+                    .align(CenterVertically)
+            ) {
                 Text(text = "Name", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
                 Text(text = exercise.name, style = MaterialTheme.typography.bodyLarge)
             }
+            ExerciseInfo(name = "Sets", value = exercise.sets.toString())
+            Spacer(Modifier.width(8.dp))
+            ExerciseInfo(name = "Reps", value = exercise.reps.toString())
+            Spacer(Modifier.width(8.dp))
+            ExerciseInfo(name = "Kg.", value = exercise.weight.toString())
         }
+    }
+}
+
+@Composable
+fun ExerciseInfo(name: String, value: String) {
+    val shape = RoundedCornerShape(16.dp)
+    Column(
+        modifier = Modifier
+            .size(48.dp, 48.dp)
+            .clip(shape)
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .padding(4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = name, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
+        Text(text = value, style = MaterialTheme.typography.bodyLarge)
     }
 }
 
