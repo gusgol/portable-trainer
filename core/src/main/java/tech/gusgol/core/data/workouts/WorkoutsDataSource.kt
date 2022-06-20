@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import tech.gusgol.core.data.Result
 import tech.gusgol.core.db.WorkoutDao
-import tech.gusgol.core.model.Exercise
 import tech.gusgol.core.model.Workout
 import tech.gusgol.core.model.WorkoutWithExercises
 import java.io.IOException
@@ -15,6 +14,7 @@ import javax.inject.Inject
 
 interface WorkoutsDataSource {
     suspend fun getWorkouts(): Result<List<Workout>>
+    fun getWorkoutsStream(): Flow<List<Workout>>
     fun getWorkoutStream(workoutId: String): Flow<Workout?>
     fun getWorkoutWithExercisesStream(workoutId: String): Flow<List<WorkoutWithExercises>>
     suspend fun insertWorkout(workout: Workout): Result<String>
@@ -32,6 +32,9 @@ class WorkoutsLocalDataSource @Inject constructor(
             Result.Error(e)
         }
     }
+
+    override fun getWorkoutsStream(): Flow<List<Workout>> =
+        workoutDao.getAllStream()
 
     /**
      * TODO change to external entity

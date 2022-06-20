@@ -28,6 +28,8 @@ import tech.gusgol.portabletrainer.R
 import tech.gusgol.core.model.Workout
 import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
 import androidx.compose.material3.Scaffold
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,12 +68,38 @@ fun HomeScreen(
             Modifier.padding(innerPadding)
         ){
             when (homeState) {
+                HomeUiState.Error -> WorkoutsErrorScreen()
+                HomeUiState.Loading -> WorkoutsLoadingScreen()
                 is HomeUiState.Empty -> WorkoutsEmptyScreen(navController)
                 is HomeUiState.Success -> WorkoutsListScreen(homeState.workouts) {
                     navController.navigate("${WorkDetailDestination.route}/${it.uid}")
                 }
             }
         }
+    }
+}
+
+@Composable
+fun WorkoutsErrorScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            stringResource(R.string.error_retrieve_workouts),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun WorkoutsLoadingScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
     }
 }
 

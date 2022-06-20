@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 interface WorkoutsRepository {
     suspend fun getWorkouts(): Result<List<Workout>>
+    fun getWorkoutsStream(): Flow<List<Workout>>
     fun getWorkoutStream(workoutId: String): Flow<Workout?>
     fun getWorkoutWithExercisesStream(workoutId: String): Flow<List<WorkoutWithExercises>>
     suspend fun insertWorkout(workout: Workout): Result<String>
@@ -19,6 +20,8 @@ class DefaultWorkoutsRepository @Inject constructor(
 ) : WorkoutsRepository {
 
     override suspend fun getWorkouts(): Result<List<Workout>> = localDataSource.getWorkouts()
+
+    override fun getWorkoutsStream(): Flow<List<Workout>> = localDataSource.getWorkoutsStream()
 
     override fun getWorkoutStream(workoutId: String): Flow<Workout?> =
         localDataSource.getWorkoutStream(workoutId)
