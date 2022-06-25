@@ -12,7 +12,7 @@ object WorkDetailDestination : PortableTrainerDestination {
     const val workoutIdArg = "workoutId"
 }
 
-fun NavGraphBuilder.workoutsGraph(
+fun NavGraphBuilder.workoutDetailGraph(
     onBackClick: () -> Unit
 ) {
     composable(
