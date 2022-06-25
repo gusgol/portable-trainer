@@ -1,6 +1,5 @@
 package tech.gusgol.portabletrainer.ui.workouts.create
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,5 +27,5 @@ fun CreateWorkoutRoute(
     CreateWorkoutScreen(
         createState,
         createWorkoutViewModel::insertWorkout
-    )
+    ) { navController.popBackStack() }
 }

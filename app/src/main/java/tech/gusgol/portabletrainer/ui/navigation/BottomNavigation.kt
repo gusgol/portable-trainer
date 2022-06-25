@@ -1,5 +1,6 @@
 package tech.gusgol.portabletrainer.ui.navigation
 
+import android.util.Log
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -9,8 +10,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
-import tech.gusgol.portabletrainer.ui.navigation.TOP_LEVEL_DESTINATIONS
-import tech.gusgol.portabletrainer.ui.navigation.TopLevelDestination
 
 
 @Composable

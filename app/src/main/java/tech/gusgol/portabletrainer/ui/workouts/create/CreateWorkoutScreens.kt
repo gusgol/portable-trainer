@@ -11,6 +11,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -49,7 +51,8 @@ enum class CreateWorkoutSteps {
 @Composable
 fun CreateWorkoutScreen(
     createState: CreateWorkoutUiState,
-    onCreateClicked: (String, WorkoutIcon) -> Unit
+    onCreateClicked: (String, WorkoutIcon) -> Unit,
+    onBackClick: () -> Unit
 ) {
     var step by remember { mutableStateOf(CreateWorkoutSteps.NAME)}
     var name: String? by rememberSaveable { mutableStateOf(null) }
@@ -62,6 +65,14 @@ fun CreateWorkoutScreen(
                         "Create Workout",
                         style = MaterialTheme.typography.titleLarge
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onBackClick) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
                 }
             )
         }
