@@ -14,9 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import tech.gusgol.portabletrainer.ui.navigation.PTBottomNavigation
-import tech.gusgol.portabletrainer.ui.navigation.PTTopLevelNavigation
-import tech.gusgol.portabletrainer.ui.navigation.PortableTrainerNavGraph
+import tech.gusgol.portabletrainer.navigation.PTBottomNavigation
+import tech.gusgol.portabletrainer.navigation.PTTopLevelNavigation
+import tech.gusgol.portabletrainer.navigation.PortableTrainerNavGraph
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

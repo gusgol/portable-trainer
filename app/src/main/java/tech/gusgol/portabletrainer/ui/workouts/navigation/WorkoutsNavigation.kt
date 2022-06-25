@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import tech.gusgol.portabletrainer.ui.navigation.PortableTrainerDestination
+import tech.gusgol.portabletrainer.navigation.PortableTrainerDestination
 import tech.gusgol.portabletrainer.ui.workouts.detail.WorkoutDetailRoute
 
 object WorkDetailDestination : PortableTrainerDestination {

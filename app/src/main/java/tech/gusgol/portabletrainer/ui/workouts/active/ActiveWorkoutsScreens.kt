@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import tech.gusgol.core.model.Workout
 import tech.gusgol.portabletrainer.R
-import tech.gusgol.portabletrainer.ui.navigation.PortableTrainerDestinations
+import tech.gusgol.portabletrainer.navigation.PortableTrainerDestinations
 import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
 
 

@@ -1,4 +1,4 @@
-package tech.gusgol.portabletrainer.ui.navigation
+package tech.gusgol.portabletrainer.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

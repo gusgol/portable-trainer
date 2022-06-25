@@ -1,4 +1,4 @@
-package tech.gusgol.portabletrainer.ui.navigation
+package tech.gusgol.portabletrainer.navigation
 
 import android.util.Log
 import androidx.compose.material3.Icon
