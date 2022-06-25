@@ -11,5 +11,10 @@ fun WorkoutDetailRoute(
     workoutDetailViewModel: WorkoutDetailViewModel = hiltViewModel()
 ) {
     val detailState by workoutDetailViewModel.uiState.collectAsState()
-    WorkoutDetailScreen(detailUiState = detailState, workoutDetailViewModel::addExercise, onBackClick)
+    WorkoutDetailScreen(
+        detailUiState = detailState,
+        onSubmit = workoutDetailViewModel::addExercise,
+        onBackClick = onBackClick,
+        onArchiveClick = workoutDetailViewModel::archive
+    )
 }

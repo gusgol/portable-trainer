@@ -9,5 +9,6 @@ import java.util.*
 data class Workout(
     @PrimaryKey val uid: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "icon") val icon: WorkoutIcon
+    @ColumnInfo(name = "icon") val icon: WorkoutIcon,
+    @ColumnInfo(name = "archived") var archived: Boolean
 )

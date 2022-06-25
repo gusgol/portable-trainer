@@ -27,7 +27,7 @@ class CreateWorkoutViewModel @Inject constructor(
         icon: WorkoutIcon
     ) {
         _uiState.value = CreateWorkoutUiState.Loading
-        val workout = Workout(name = name, icon = icon)
+        val workout = Workout(name = name, icon = icon, archived = false)
         viewModelScope.launch {
             val result = insertWorkoutUseCase(workout)
             _uiState.value = when(result) {

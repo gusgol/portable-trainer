@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import tech.gusgol.core.data.domain.ArchiveWorkoutUseCase
 import tech.gusgol.core.data.domain.InsertExerciseUseCase
-import tech.gusgol.core.data.domain.ObserveWorkoutUseCase
 import tech.gusgol.core.data.domain.ObserveWorkoutWithExercisesUseCase
 import tech.gusgol.core.model.Exercise
 import tech.gusgol.core.model.Workout
@@ -23,7 +23,8 @@ import javax.inject.Inject
 class WorkoutDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     observeWorkoutWithExercisesUseCase: ObserveWorkoutWithExercisesUseCase,
-    private val insertExerciseUseCase: InsertExerciseUseCase
+    private val insertExerciseUseCase: InsertExerciseUseCase,
+    private val archiveWorkoutUseCase: ArchiveWorkoutUseCase
 ) : ViewModel() {
 
     private val workoutId: String = checkNotNull(savedStateHandle[WorkDetailDestination.workoutIdArg])
@@ -56,6 +57,15 @@ class WorkoutDetailViewModel @Inject constructor(
             insertExerciseUseCase(exercise)
         }
     }
+
+    fun archive() {
+        (uiState.value as? WorkoutDetailUiState.Success)?.let {
+            viewModelScope.launch {
+                val result = archiveWorkoutUseCase(it.workout)
+                Log.e("Result", result.toString())
+            }
+        }
+    }
 }
 
 sealed interface WorkoutDetailUiState {
@@ -64,4 +74,12 @@ sealed interface WorkoutDetailUiState {
         val exercises: List<Exercise>) : WorkoutDetailUiState
     object Loading : WorkoutDetailUiState
     object Error : WorkoutDetailUiState
+
+    fun isArchived(): Boolean {
+        if (this is Success) {
+            return workout.archived
+        } else {
+            return false
+        }
+    }
 }

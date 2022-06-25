@@ -44,7 +44,8 @@ import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 fun WorkoutDetailScreen(
     detailUiState: WorkoutDetailUiState,
     onSubmit: (String, Int?, Int?, Int?) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onArchiveClick: () -> Unit
 ) {
     val decayAnimationSpec = rememberSplineBasedDecay<Float>()
     val scrollBehavior = remember(decayAnimationSpec) {
@@ -75,11 +76,20 @@ fun WorkoutDetailScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(
-                            imageVector = Icons.Filled.Archive,
-                            contentDescription = "Localized description"
-                        )
+                    if (detailUiState.isArchived()) {
+                        IconButton(onClick = {  }) {
+                            Icon(
+                                imageVector = Icons.Filled.Unarchive,
+                                contentDescription = "Unarchive"
+                            )
+                        }
+                    } else {
+                        IconButton(onClick = onArchiveClick) {
+                            Icon(
+                                imageVector = Icons.Filled.Archive,
+                                contentDescription = "Archive"
+                            )
+                        }
                     }
                 },
                 scrollBehavior = scrollBehavior
@@ -235,7 +245,8 @@ fun ExerciseCard(exercise: Exercise) {
             modifier = Modifier.padding(16.dp)
         ) {
             Column(
-                modifier = Modifier.weight(1.0f)
+                modifier = Modifier
+                    .weight(1.0f)
                     .align(CenterVertically)
             ) {
                 Text(text = "Name", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)

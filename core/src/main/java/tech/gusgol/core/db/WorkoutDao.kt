@@ -12,7 +12,16 @@ interface WorkoutDao {
     @Query("SELECT * FROM workout")
     fun getAll(): List<Workout>
 
-    @Query("SELECT * FROM workout")
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    fun insert(workout: Workout): Long
+
+    @Delete
+    fun delete(workout: Workout): Int
+
+    @Update
+    fun update(workout: Workout): Int
+
+    @Query("SELECT * FROM workout WHERE archived = 0")
     fun getAllStream(): Flow<List<Workout>>
 
     @Query("SELECT * FROM workout WHERE uid = :workoutId")
@@ -21,10 +30,4 @@ interface WorkoutDao {
     @Transaction
     @Query("SELECT * FROM workout WHERE uid = :workoutId")
     fun getWorkoutWithExercises(workoutId: String): Flow<List<WorkoutWithExercises>>
-
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insert(workout: Workout): Long
-
-    @Delete
-    fun delete(workout: Workout): Int
 }

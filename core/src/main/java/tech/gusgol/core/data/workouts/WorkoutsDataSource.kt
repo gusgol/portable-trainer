@@ -14,10 +14,11 @@ import javax.inject.Inject
 
 interface WorkoutsDataSource {
     suspend fun getWorkouts(): Result<List<Workout>>
+    suspend fun insertWorkout(workout: Workout): Result<String>
+    suspend fun updateWorkout(workout: Workout): Result<Boolean>
     fun getWorkoutsStream(): Flow<List<Workout>>
     fun getWorkoutStream(workoutId: String): Flow<Workout?>
     fun getWorkoutWithExercisesStream(workoutId: String): Flow<List<WorkoutWithExercises>>
-    suspend fun insertWorkout(workout: Workout): Result<String>
 }
 
 class WorkoutsLocalDataSource @Inject constructor(
@@ -33,18 +34,6 @@ class WorkoutsLocalDataSource @Inject constructor(
         }
     }
 
-    override fun getWorkoutsStream(): Flow<List<Workout>> =
-        workoutDao.getAllStream()
-
-    /**
-     * TODO change to external entity
-     */
-    override fun getWorkoutStream(workoutId: String): Flow<Workout?> =
-        workoutDao.getWorkout(workoutId)
-
-    override fun getWorkoutWithExercisesStream(workoutId: String): Flow<List<WorkoutWithExercises>> =
-        workoutDao.getWorkoutWithExercises(workoutId)
-
     override suspend fun insertWorkout(workout: Workout): Result<String> = withContext(ioDispatcher) {
         return@withContext try {
             val response = workoutDao.insert(workout)
@@ -56,4 +45,26 @@ class WorkoutsLocalDataSource @Inject constructor(
             Result.Error(e)
         }
     }
+
+    override suspend fun updateWorkout(workout: Workout): Result<Boolean> =
+        withContext(ioDispatcher) {
+            return@withContext try {
+                val response = workoutDao.update(workout)
+                Result.Success(response == 1)
+            } catch (e: Exception) {
+                Result.Error(e)
+            }
+        }
+
+    override fun getWorkoutsStream(): Flow<List<Workout>> =
+        workoutDao.getAllStream()
+
+    /**
+     * TODO change to external entity
+     */
+    override fun getWorkoutStream(workoutId: String): Flow<Workout?> =
+        workoutDao.getWorkout(workoutId)
+
+    override fun getWorkoutWithExercisesStream(workoutId: String): Flow<List<WorkoutWithExercises>> =
+        workoutDao.getWorkoutWithExercises(workoutId)
 }
