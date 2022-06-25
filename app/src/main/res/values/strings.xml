@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Portable Trainer</string>
+
+    <!-- Titles -->
+    <string name="title_nav_active_workouts">Active Workouts</string>
+    <string name="title_nav_archived_workouts">Archived Workouts</string>
+
+    <!-- Errors -->
     <string name="error_retrieve_workouts">Unable to retrieve your workouts</string>
 </resources>

@@ -1,13 +1,11 @@
 package tech.gusgol.portabletrainer.ui.workouts.navigation
 
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import tech.gusgol.portabletrainer.PortableTrainerDestination
+import tech.gusgol.portabletrainer.ui.navigation.PortableTrainerDestination
 import tech.gusgol.portabletrainer.ui.workouts.detail.WorkoutDetailRoute
-import tech.gusgol.portabletrainer.ui.workouts.detail.WorkoutDetailViewModel
 
 object WorkDetailDestination : PortableTrainerDestination {
     override val route: String = "workout/detail"

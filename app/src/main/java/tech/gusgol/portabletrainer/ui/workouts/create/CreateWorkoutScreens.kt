@@ -23,9 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import tech.gusgol.core.model.WorkoutIcon
-import tech.gusgol.portabletrainer.ui.home.BottomNavigation
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
-import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutUiState
 
 
 @Preview(showBackground = true)
@@ -66,9 +64,6 @@ fun CreateWorkoutScreen(
                     )
                 }
             )
-        },
-        bottomBar = {
-            BottomNavigation()
         }
     ) { innerPadding ->
         Box(

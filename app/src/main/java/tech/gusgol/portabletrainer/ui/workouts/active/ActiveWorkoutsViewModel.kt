@@ -1,4 +1,4 @@
-package tech.gusgol.portabletrainer.ui.home
+package tech.gusgol.portabletrainer.ui.workouts.active
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,31 +11,31 @@ import tech.gusgol.core.data.domain.ObserveWorkoutsUseCase
 import tech.gusgol.core.model.Workout
 import javax.inject.Inject
 
-sealed interface HomeUiState {
-    object Loading : HomeUiState
-    object Error : HomeUiState
-    object Empty : HomeUiState
+sealed interface ActiveWorkoutsUiState {
+    object Loading : ActiveWorkoutsUiState
+    object Error : ActiveWorkoutsUiState
+    object Empty : ActiveWorkoutsUiState
     data class Success(
         val workouts: List<Workout>
-    ) : HomeUiState
+    ) : ActiveWorkoutsUiState
 }
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class ActiveWorkoutsViewModel @Inject constructor(
     observeWorkoutsUseCase: ObserveWorkoutsUseCase
 ) : ViewModel() {
 
-    val uiState: StateFlow<HomeUiState> = observeWorkoutsUseCase()
+    val uiState: StateFlow<ActiveWorkoutsUiState> = observeWorkoutsUseCase()
         .map { workouts ->
             when {
-                workouts.isNotEmpty() -> HomeUiState.Success(workouts)
-                workouts.isEmpty() -> HomeUiState.Empty
-                else -> HomeUiState.Error
+                workouts.isNotEmpty() -> ActiveWorkoutsUiState.Success(workouts)
+                workouts.isEmpty() -> ActiveWorkoutsUiState.Empty
+                else -> ActiveWorkoutsUiState.Error
             }
         }
         .stateIn(
             viewModelScope,
             SharingStarted.Eagerly,
-            HomeUiState.Loading
+            ActiveWorkoutsUiState.Loading
         )
 }
