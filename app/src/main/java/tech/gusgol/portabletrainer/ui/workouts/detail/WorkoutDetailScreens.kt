@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -20,6 +21,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -39,7 +41,10 @@ import tech.gusgol.core.model.Exercise
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class,
+    ExperimentalMaterialApi::class
+)
 @Composable
 fun WorkoutDetailScreen(
     detailUiState: WorkoutDetailUiState,
@@ -53,8 +58,8 @@ fun WorkoutDetailScreen(
     }
 
     val addExerciseBottomSheet = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-
     val coroutineScope = rememberCoroutineScope()
+    val openArchiveDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -77,14 +82,18 @@ fun WorkoutDetailScreen(
                 },
                 actions = {
                     if (detailUiState.isArchived()) {
-                        IconButton(onClick = {  }) {
+                        IconButton(onClick = { }) {
                             Icon(
                                 imageVector = Icons.Filled.Unarchive,
                                 contentDescription = "Unarchive"
                             )
                         }
                     } else {
-                        IconButton(onClick = onArchiveClick) {
+                        IconButton(
+                            onClick = {
+                                openArchiveDialog.value = true
+                            }
+                        ) {
                             Icon(
                                 imageVector = Icons.Filled.Archive,
                                 contentDescription = "Archive"
@@ -215,6 +224,36 @@ fun WorkoutDetailScreen(
                 WorkoutDetailUiState.Loading -> CircularProgressIndicator()
             }
         }
+    }
+
+    if (openArchiveDialog.value) {
+        AlertDialog(
+            onDismissRequest = {
+                openArchiveDialog.value = false
+            },
+            text = {
+                Text("Are you sure you want do archive this workout?")
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        openArchiveDialog.value = false
+                        onArchiveClick()
+                    }
+                ) {
+                    Text("Yes")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        openArchiveDialog.value = false
+                    }
+                ) {
+                    Text("No")
+                }
+            }
+        )
     }
 }
 
