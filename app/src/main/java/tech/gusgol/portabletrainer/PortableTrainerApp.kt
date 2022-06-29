@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import tech.gusgol.portabletrainer.navigation.PTBottomNavigation
 import tech.gusgol.portabletrainer.navigation.PTTopLevelNavigation
+import tech.gusgol.portabletrainer.navigation.PortableTrainerDestinations
 import tech.gusgol.portabletrainer.navigation.PortableTrainerNavGraph
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 
@@ -39,7 +40,11 @@ fun PortableTrainerApp() {
 
         Scaffold(
             bottomBar = {
-                PTBottomNavigation(topLevelNavigation::navigateTo, currentDestination)
+                if (currentDestination?.route == PortableTrainerDestinations.WORKOUTS_ACTIVE ||
+                    currentDestination?.route == PortableTrainerDestinations.WORKOUTS_ARCHIVED
+                ) {
+                    PTBottomNavigation(topLevelNavigation::navigateTo, currentDestination)
+                }
             }
         ) { innerPadding ->
             Box(
