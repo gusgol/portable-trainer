@@ -1,4 +1,4 @@
-package tech.gusgol.portabletrainer.ui.workouts.active
+package tech.gusgol.portabletrainer.ui.workouts.list.active
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,6 +29,9 @@ import androidx.navigation.NavController
 import tech.gusgol.core.model.Workout
 import tech.gusgol.portabletrainer.R
 import tech.gusgol.portabletrainer.navigation.PortableTrainerDestinations
+import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsErrorScreen
+import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsLoadingScreen
+import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsUiState
 import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
 
 
@@ -36,7 +39,7 @@ import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
 @Composable
 fun ActiveWorkoutsScreen(
     navController: NavController,
-    activeWorkoutsUiState: ActiveWorkoutsUiState
+    workoutsUiState: WorkoutsUiState
 ) {
     Scaffold(
         topBar = {
@@ -50,7 +53,7 @@ fun ActiveWorkoutsScreen(
             )
         },
         floatingActionButton = {
-            if (activeWorkoutsUiState is ActiveWorkoutsUiState.Success) {
+            if (workoutsUiState is WorkoutsUiState.Success) {
                 SmallFloatingActionButton(
                     onClick = {
                         navController.navigate(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE)
@@ -64,11 +67,12 @@ fun ActiveWorkoutsScreen(
         Box(
             Modifier.padding(innerPadding)
         ) {
-            when (activeWorkoutsUiState) {
-                ActiveWorkoutsUiState.Error -> WorkoutsErrorScreen()
-                ActiveWorkoutsUiState.Loading -> WorkoutsLoadingScreen()
-                is ActiveWorkoutsUiState.Empty -> WorkoutsEmptyScreen(navController)
-                is ActiveWorkoutsUiState.Success -> WorkoutsListScreen(activeWorkoutsUiState.workouts) {
+            when (workoutsUiState) {
+                WorkoutsUiState.Error -> WorkoutsErrorScreen()
+                WorkoutsUiState.Loading -> WorkoutsLoadingScreen()
+                is WorkoutsUiState.Empty -> WorkoutsEmptyScreen(navController)
+                is WorkoutsUiState.Success -> WorkoutsListScreen(workoutsUiState.workouts) {
+                    //TODO check this... maybe move this up?
                     navController.navigate("${WorkDetailDestination.route}/${it.uid}")
                 }
             }
@@ -76,29 +80,6 @@ fun ActiveWorkoutsScreen(
     }
 }
 
-@Composable
-fun WorkoutsErrorScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            stringResource(R.string.error_retrieve_workouts),
-            style = MaterialTheme.typography.titleMedium,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-fun WorkoutsLoadingScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
 
 @Composable
 fun WorkoutsEmptyScreen(navController: NavController) {

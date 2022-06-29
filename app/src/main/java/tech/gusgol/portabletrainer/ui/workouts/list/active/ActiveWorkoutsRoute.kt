@@ -1,4 +1,4 @@
-package tech.gusgol.portabletrainer.ui.workouts.active
+package tech.gusgol.portabletrainer.ui.workouts.list.active
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

@@ -5,8 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import tech.gusgol.portabletrainer.ui.workouts.active.ActiveWorkoutsRoute
-import tech.gusgol.portabletrainer.ui.workouts.archived.ArchivedWorkoutsRoute
+import tech.gusgol.portabletrainer.ui.workouts.list.active.ActiveWorkoutsRoute
+import tech.gusgol.portabletrainer.ui.workouts.list.archived.ArchivedWorkoutsRoute
 import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutRoute
 import tech.gusgol.portabletrainer.ui.workouts.navigation.workoutDetailGraph
 

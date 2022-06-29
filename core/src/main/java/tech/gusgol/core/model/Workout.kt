@@ -10,5 +10,6 @@ data class Workout(
     @PrimaryKey val uid: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "icon") val icon: WorkoutIcon,
-    @ColumnInfo(name = "archived") var archived: Boolean
+    @ColumnInfo(name = "archived") var archived: Boolean,
+    @ColumnInfo(name = "archived_date") var archivedDate: Date? = null
 )

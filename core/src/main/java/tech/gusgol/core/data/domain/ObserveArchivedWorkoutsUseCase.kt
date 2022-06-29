@@ -5,11 +5,11 @@ import tech.gusgol.core.data.workouts.WorkoutsRepository
 import tech.gusgol.core.model.Workout
 import javax.inject.Inject
 
-class ObserveWorkoutsUseCase @Inject constructor(
+class ObserveArchivedWorkoutsUseCase @Inject constructor(
     private val workoutsRepository: WorkoutsRepository
 ) {
 
     operator fun invoke(): Flow<List<Workout>> {
-        return workoutsRepository.getWorkoutsStream(false)
+        return workoutsRepository.getWorkoutsStream(true)
     }
 }
