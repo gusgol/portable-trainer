@@ -1,13 +1,16 @@
 package tech.gusgol.portabletrainer.ui.workouts.detail
 
 import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -32,12 +35,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.CoroutineScope
 import tech.gusgol.core.model.Exercise
+import tech.gusgol.portabletrainer.R
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 
 
@@ -259,13 +269,50 @@ fun WorkoutDetailScreen(
 
 @Composable
 fun ExercisesListScreen(exercises: List<Exercise>) {
-    LazyColumn(
-        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-    ) {
-        items(exercises) { exercise ->
-            ExerciseCard(exercise = exercise)
+    if (exercises.isEmpty()) {
+        ExercisesEmptyScreen()
+    } else {
+        LazyColumn(
+            contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            items(exercises) { exercise ->
+                ExerciseCard(exercise = exercise)
+            }
         }
+    }
+}
+
+@Composable
+fun ExercisesEmptyScreen() {
+    val scrollableState = rememberScrollState()
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollableState),
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.img_workout2),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        val headline = buildAnnotatedString {
+            append("You haven't added\nany ")
+            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                append("exercises")
+            }
+            append(" ")
+            append("yet!")
+        }
+        Text(
+            headline,
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 16.dp)
+        )
     }
 }
 
@@ -278,8 +325,6 @@ fun ExerciseCard(exercise: Exercise) {
         modifier = Modifier
             .fillMaxWidth()
     ) {
-
-
         Row(
             modifier = Modifier.padding(16.dp)
         ) {
@@ -367,4 +412,12 @@ fun PTOutlinedTextField(
         ),
         isError = isError
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ExercisesEmptyScreenPreview() {
+    PortableTrainerTheme {
+        ExercisesEmptyScreen()
+    }
 }
