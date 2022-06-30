@@ -23,12 +23,14 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import tech.gusgol.core.model.Workout
 import tech.gusgol.portabletrainer.R
 import tech.gusgol.portabletrainer.navigation.PortableTrainerDestinations
+import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsErrorScreen
 import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsLoadingScreen
 import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsUiState
@@ -38,8 +40,9 @@ import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActiveWorkoutsScreen(
-    navController: NavController,
-    workoutsUiState: WorkoutsUiState
+    workoutsUiState: WorkoutsUiState,
+    onCreateWorkout: () -> Unit,
+    onCardClicked: (Workout) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -56,7 +59,7 @@ fun ActiveWorkoutsScreen(
             if (workoutsUiState is WorkoutsUiState.Success) {
                 SmallFloatingActionButton(
                     onClick = {
-                        navController.navigate(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE)
+                        onCreateWorkout()
                     },
                 ) {
                     Icon(Icons.Filled.Add, contentDescription = "Create workout")
@@ -70,56 +73,48 @@ fun ActiveWorkoutsScreen(
             when (workoutsUiState) {
                 WorkoutsUiState.Error -> WorkoutsErrorScreen()
                 WorkoutsUiState.Loading -> WorkoutsLoadingScreen()
-                is WorkoutsUiState.Empty -> WorkoutsEmptyScreen(navController)
-                is WorkoutsUiState.Success -> WorkoutsListScreen(workoutsUiState.workouts) {
-                    //TODO check this... maybe move this up?
-                    navController.navigate("${WorkDetailDestination.route}/${it.uid}")
-                }
+                is WorkoutsUiState.Empty -> WorkoutsEmptyScreen(onCreateWorkout)
+                is WorkoutsUiState.Success -> WorkoutsListScreen(workoutsUiState.workouts, onCardClicked)
             }
         }
     }
 }
 
-
 @Composable
-fun WorkoutsEmptyScreen(navController: NavController) {
+fun WorkoutsEmptyScreen(
+    onCallToActionClick: () -> Unit
+) {
     val scrollableState = rememberScrollState()
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollableState),
     ) {
-        Box {
-            Image(
-                painter = painterResource(id = R.drawable.img_home),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                alignment = Alignment.TopStart,
-                modifier = Modifier
-                    .height(448.dp)
-                    .padding(top = 112.dp)
-                    .padding(start = 16.dp)
-            )
-
-            val headline = buildAnnotatedString {
-                append("Please create\nyour first\n")
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("workout!")
-                }
+        val headline = buildAnnotatedString {
+            append("Please create your\nfirst ")
+            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                append("workout!")
             }
-            Text(
-                headline,
-                style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier.padding(16.dp)
-            )
         }
+        Text(
+            headline,
+            style = MaterialTheme.typography.headlineLarge,
+            textAlign = TextAlign.Center
+        )
+        Image(
+            painter = painterResource(id = R.drawable.img_workout),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .height(448.dp)
+        )
+
         FilledTonalButton(
             onClick = {
-                navController.navigate(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE)
-            },
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 32.dp)
+                onCallToActionClick()
+            }
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
@@ -148,7 +143,6 @@ fun WorkoutsListScreen(
     }
 
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -189,5 +183,14 @@ fun WorkoutCard(
                 )
             }
         }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun WorkoutsEmptyScreenPreview() {
+    PortableTrainerTheme {
+        WorkoutsEmptyScreen {}
     }
 }
