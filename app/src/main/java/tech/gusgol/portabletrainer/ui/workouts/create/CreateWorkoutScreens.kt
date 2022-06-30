@@ -18,6 +18,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -103,6 +105,9 @@ fun CreateWorkoutScreen(
 fun CreateWorkoutName(
     onNameConfirmed: (String) -> Unit
 ) {
+    val confirm: (String) -> Unit = {
+        onNameConfirmed(it.trim())
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -139,12 +144,17 @@ fun CreateWorkoutName(
                 imeAction = ImeAction.Go,
             ),
             keyboardActions = KeyboardActions(
-                onGo = { onNameConfirmed(text) }
+                onGo = { confirm(text) }
             ),
-            modifier = Modifier.padding(horizontal = 16.dp)
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            modifier = Modifier.padding(horizontal = 16.dp).onFocusChanged {
+                if (it.isFocused) {
+                    text = " "
+                }
+            }
         )
         FilledTonalButton(
-            onClick = { onNameConfirmed(text) },
+            onClick = { confirm(text) },
             enabled = text.isNotBlank(),
             modifier = Modifier.padding(top = 32.dp),
         ) {
