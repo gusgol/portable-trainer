@@ -1,6 +1,5 @@
 package tech.gusgol.portabletrainer.navigation
 
-import android.util.Log
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -13,7 +12,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 
 
 @Composable
-fun PTBottomNavigation(
+fun BottomNavigation(
     onNavigateToTopLevelDestination: (TopLevelDestination) -> Unit,
     currentDestination: NavDestination?
 ) {

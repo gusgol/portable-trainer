@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import tech.gusgol.portabletrainer.navigation.PTBottomNavigation
-import tech.gusgol.portabletrainer.navigation.PTTopLevelNavigation
+import tech.gusgol.portabletrainer.navigation.BottomNavigation
+import tech.gusgol.portabletrainer.navigation.TopLevelNavigation
 import tech.gusgol.portabletrainer.navigation.PortableTrainerNavGraph
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 import tech.gusgol.portabletrainer.ui.workouts.navigation.ActiveWorkoutsDestination
@@ -33,7 +33,7 @@ fun PortableTrainerApp() {
 
         val navController = rememberNavController()
         val topLevelNavigation = remember(navController) {
-            PTTopLevelNavigation(navController)
+            TopLevelNavigation(navController)
         }
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -44,7 +44,7 @@ fun PortableTrainerApp() {
                 if (currentDestination?.route == ActiveWorkoutsDestination.route ||
                     currentDestination?.route == ArchivedWorkoutsWorkoutDestination.route
                 ) {
-                    PTBottomNavigation(topLevelNavigation::navigateTo, currentDestination)
+                    BottomNavigation(topLevelNavigation::navigateTo, currentDestination)
                 }
             }
         ) { innerPadding ->

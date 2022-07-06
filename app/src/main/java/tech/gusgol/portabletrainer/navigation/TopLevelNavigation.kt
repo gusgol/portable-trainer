@@ -12,7 +12,7 @@ import tech.gusgol.portabletrainer.R
 import tech.gusgol.portabletrainer.ui.workouts.navigation.ActiveWorkoutsDestination
 import tech.gusgol.portabletrainer.ui.workouts.navigation.ArchivedWorkoutsWorkoutDestination
 
-class PTTopLevelNavigation(private val navController: NavHostController) {
+class TopLevelNavigation(private val navController: NavHostController) {
 
     fun navigateTo(destination: TopLevelDestination) {
         navController.navigate(destination.route) {
