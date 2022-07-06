@@ -20,12 +20,9 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -47,6 +44,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.CoroutineScope
 import tech.gusgol.core.model.Exercise
+import tech.gusgol.core.ui.PTOutlinedTextField
 import tech.gusgol.portabletrainer.R
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 
@@ -383,35 +381,6 @@ private fun toggleExerciseSheet(
             bottomSheetState.hide()
         }
     }
-}
-
-@Composable
-fun PTOutlinedTextField(
-    modifier: Modifier = Modifier,
-    value: String,
-    label: String,
-    onValueChange: (String) -> Unit,
-    textAlign: TextAlign = TextAlign.Start,
-    isError: Boolean = false,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default
-) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(label) },
-        singleLine = true,
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions,
-        modifier = modifier,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            unfocusedBorderColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        textStyle = LocalTextStyle.current.copy(
-            textAlign = textAlign
-        ),
-        isError = isError
-    )
 }
 
 @Preview(showBackground = true)
