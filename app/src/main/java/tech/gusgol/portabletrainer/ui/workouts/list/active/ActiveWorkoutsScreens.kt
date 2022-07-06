@@ -26,15 +26,12 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import tech.gusgol.core.model.Workout
 import tech.gusgol.portabletrainer.R
-import tech.gusgol.portabletrainer.navigation.PortableTrainerDestinations
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsErrorScreen
 import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsLoadingScreen
 import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsUiState
-import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
 
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -8,24 +8,27 @@ import androidx.navigation.compose.rememberNavController
 import tech.gusgol.portabletrainer.ui.workouts.list.active.ActiveWorkoutsRoute
 import tech.gusgol.portabletrainer.ui.workouts.list.archived.ArchivedWorkoutsRoute
 import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutRoute
+import tech.gusgol.portabletrainer.ui.workouts.navigation.ActiveWorkoutsDestination
+import tech.gusgol.portabletrainer.ui.workouts.navigation.ArchivedWorkoutsWorkoutDestination
+import tech.gusgol.portabletrainer.ui.workouts.navigation.CreateWorkoutDestination
 import tech.gusgol.portabletrainer.ui.workouts.navigation.workoutDetailGraph
 
 @Composable
 fun PortableTrainerNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = PortableTrainerDestinations.WORKOUTS_ACTIVE
+    startDestination: String = ActiveWorkoutsDestination.route
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(PortableTrainerDestinations.WORKOUTS_ACTIVE) {
+        composable(ActiveWorkoutsDestination.route) {
             ActiveWorkoutsRoute(navController)
         }
-        composable(PortableTrainerDestinations.WORKOUTS_ARCHIVED) {
+        composable(ArchivedWorkoutsWorkoutDestination.route) {
             ArchivedWorkoutsRoute(navController)
         }
-        composable(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE) {
+        composable(CreateWorkoutDestination.route) {
             CreateWorkoutRoute(navController)
         }
         workoutDetailGraph { navController.popBackStack() }

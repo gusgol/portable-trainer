@@ -16,9 +16,10 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import tech.gusgol.portabletrainer.navigation.PTBottomNavigation
 import tech.gusgol.portabletrainer.navigation.PTTopLevelNavigation
-import tech.gusgol.portabletrainer.navigation.PortableTrainerDestinations
 import tech.gusgol.portabletrainer.navigation.PortableTrainerNavGraph
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
+import tech.gusgol.portabletrainer.ui.workouts.navigation.ActiveWorkoutsDestination
+import tech.gusgol.portabletrainer.ui.workouts.navigation.ArchivedWorkoutsWorkoutDestination
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,8 +41,8 @@ fun PortableTrainerApp() {
 
         Scaffold(
             bottomBar = {
-                if (currentDestination?.route == PortableTrainerDestinations.WORKOUTS_ACTIVE ||
-                    currentDestination?.route == PortableTrainerDestinations.WORKOUTS_ARCHIVED
+                if (currentDestination?.route == ActiveWorkoutsDestination.route ||
+                    currentDestination?.route == ArchivedWorkoutsWorkoutDestination.route
                 ) {
                     PTBottomNavigation(topLevelNavigation::navigateTo, currentDestination)
                 }

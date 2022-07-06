@@ -21,7 +21,7 @@ import tech.gusgol.portabletrainer.R
 import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsErrorScreen
 import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsLoadingScreen
 import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsUiState
-import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
+import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkoutDetailDestination
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,7 +50,7 @@ fun ArchivedWorkoutsScreen(
                 WorkoutsUiState.Loading -> WorkoutsLoadingScreen()
                 WorkoutsUiState.Loading -> Text("Empty")
                 is WorkoutsUiState.Success -> ArchivedWorkoutsList(workoutsUiState.workouts) {
-                    navController.navigate("${WorkDetailDestination.route}/${it.uid}")
+                    navController.navigate("${WorkoutDetailDestination.route}/${it.uid}")
                 }
             }
         }

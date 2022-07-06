@@ -5,8 +5,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import tech.gusgol.portabletrainer.navigation.PortableTrainerDestinations
-import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
+import tech.gusgol.portabletrainer.ui.workouts.navigation.CreateWorkoutDestination
+import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkoutDetailDestination
 
 @Composable
 fun ActiveWorkoutsRoute(
@@ -17,10 +17,10 @@ fun ActiveWorkoutsRoute(
     ActiveWorkoutsScreen(
         uiState,
         {
-            navController.navigate(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE)
+            navController.navigate(CreateWorkoutDestination.route)
         },
         { workout ->
-            navController.navigate("${WorkDetailDestination.route}/${workout.uid}")
+            navController.navigate("${WorkoutDetailDestination.route}/${workout.uid}")
         }
     )
 }
