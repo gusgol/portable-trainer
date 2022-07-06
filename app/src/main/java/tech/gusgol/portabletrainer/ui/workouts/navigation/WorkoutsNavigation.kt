@@ -1,30 +1,59 @@
 package tech.gusgol.portabletrainer.ui.workouts.navigation
 
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import tech.gusgol.portabletrainer.PortableTrainerDestination
+import tech.gusgol.portabletrainer.navigation.NavigationDestination
+import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutRoute
 import tech.gusgol.portabletrainer.ui.workouts.detail.WorkoutDetailRoute
-import tech.gusgol.portabletrainer.ui.workouts.detail.WorkoutDetailViewModel
+import tech.gusgol.portabletrainer.ui.workouts.list.active.ActiveWorkoutsRoute
+import tech.gusgol.portabletrainer.ui.workouts.list.archived.ArchivedWorkoutsRoute
 
-object WorkDetailDestination : PortableTrainerDestination {
-    override val route: String = "workout/detail"
+const val WORKOUT = "workout"
+const val WORKOUTS = "workouts"
+
+object CreateWorkoutDestination: NavigationDestination {
+    override val route: String = "$WORKOUT/create"
+}
+
+object ActiveWorkoutsDestination: NavigationDestination {
+    override val route: String = "$WORKOUTS/active"
+}
+object ArchivedWorkoutsWorkoutDestination: NavigationDestination {
+    override val route: String = "$WORKOUTS/archived"
+}
+
+object WorkoutDetailDestination : NavigationDestination {
+    override val route: String = "$WORKOUT/detail"
     const val workoutIdArg = "workoutId"
 }
 
 fun NavGraphBuilder.workoutsGraph(
-    onBackClick: () -> Unit
+    navController: NavController
 ) {
+    composable(ActiveWorkoutsDestination.route) {
+        ActiveWorkoutsRoute(navController)
+    }
+    composable(ArchivedWorkoutsWorkoutDestination.route) {
+        ArchivedWorkoutsRoute(navController)
+    }
+    composable(CreateWorkoutDestination.route) {
+        CreateWorkoutRoute(navController)
+    }
     composable(
-        route = "${WorkDetailDestination.route}/{${WorkDetailDestination.workoutIdArg}}",
+        route = "${WorkoutDetailDestination.route}/{${WorkoutDetailDestination.workoutIdArg}}",
         arguments = listOf(
-            navArgument(WorkDetailDestination.workoutIdArg) {
+            navArgument(WorkoutDetailDestination.workoutIdArg) {
                 type = NavType.StringType
             }
         )
     ) {
-        WorkoutDetailRoute(onBackClick)
+        WorkoutDetailRoute(
+            onBackClick = {
+                navController.popBackStack()
+            }
+        )
     }
 }

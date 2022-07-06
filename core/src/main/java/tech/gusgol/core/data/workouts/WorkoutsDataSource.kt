@@ -16,7 +16,7 @@ interface WorkoutsDataSource {
     suspend fun getWorkouts(): Result<List<Workout>>
     suspend fun insertWorkout(workout: Workout): Result<String>
     suspend fun updateWorkout(workout: Workout): Result<Boolean>
-    fun getWorkoutsStream(): Flow<List<Workout>>
+    fun getWorkoutsStream(archived: Boolean): Flow<List<Workout>>
     fun getWorkoutStream(workoutId: String): Flow<Workout?>
     fun getWorkoutWithExercisesStream(workoutId: String): Flow<List<WorkoutWithExercises>>
 }
@@ -56,8 +56,8 @@ class WorkoutsLocalDataSource @Inject constructor(
             }
         }
 
-    override fun getWorkoutsStream(): Flow<List<Workout>> =
-        workoutDao.getAllStream()
+    override fun getWorkoutsStream(archived: Boolean): Flow<List<Workout>> =
+        workoutDao.getWorkoutsStream(archived)
 
     /**
      * TODO change to external entity

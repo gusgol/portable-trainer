@@ -1,147 +1,117 @@
-package tech.gusgol.portabletrainer.ui.home
+package tech.gusgol.portabletrainer.ui.workouts.list.active
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Archive
-import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import tech.gusgol.portabletrainer.PortableTrainerDestinations
-import tech.gusgol.portabletrainer.R
 import tech.gusgol.core.model.Workout
-import tech.gusgol.portabletrainer.ui.workouts.navigation.WorkDetailDestination
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import tech.gusgol.portabletrainer.R
+import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
+import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsErrorScreen
+import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsLoadingScreen
+import tech.gusgol.portabletrainer.ui.workouts.list.WorkoutsUiState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
-    homeState: HomeUiState,
-    navController: NavController
+fun ActiveWorkoutsScreen(
+    workoutsUiState: WorkoutsUiState,
+    onCreateWorkout: () -> Unit,
+    onCardClicked: (Workout) -> Unit
 ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Active Workouts",
+                        stringResource(R.string.title_nav_active_workouts),
                         style = MaterialTheme.typography.titleLarge
                     )
                 }
             )
         },
         floatingActionButton = {
-            if (homeState is HomeUiState.Success) {
+            if (workoutsUiState is WorkoutsUiState.Success) {
                 SmallFloatingActionButton(
                     onClick = {
-                        navController.navigate(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE)
+                        onCreateWorkout()
                     },
                 ) {
                     Icon(Icons.Filled.Add, contentDescription = "Create workout")
                 }
             }
-        },
-        bottomBar = {
-            BottomNavigation()
         }
     ) { innerPadding ->
         Box(
             Modifier.padding(innerPadding)
-        ){
-            when (homeState) {
-                HomeUiState.Error -> WorkoutsErrorScreen()
-                HomeUiState.Loading -> WorkoutsLoadingScreen()
-                is HomeUiState.Empty -> WorkoutsEmptyScreen(navController)
-                is HomeUiState.Success -> WorkoutsListScreen(homeState.workouts) {
-                    navController.navigate("${WorkDetailDestination.route}/${it.uid}")
-                }
+        ) {
+            when (workoutsUiState) {
+                WorkoutsUiState.Error -> WorkoutsErrorScreen()
+                WorkoutsUiState.Loading -> WorkoutsLoadingScreen()
+                is WorkoutsUiState.Empty -> WorkoutsEmptyScreen(onCreateWorkout)
+                is WorkoutsUiState.Success -> WorkoutsListScreen(workoutsUiState.workouts, onCardClicked)
             }
         }
     }
 }
 
 @Composable
-fun WorkoutsErrorScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            stringResource(R.string.error_retrieve_workouts),
-            style = MaterialTheme.typography.titleMedium,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-fun WorkoutsLoadingScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-fun WorkoutsEmptyScreen(navController: NavController) {
+fun WorkoutsEmptyScreen(
+    onCallToActionClick: () -> Unit
+) {
     val scrollableState = rememberScrollState()
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollableState),
     ) {
-        Box {
-            Image(
-                painter = painterResource(id = R.drawable.img_home),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                alignment = Alignment.TopStart,
-                modifier = Modifier
-                    .height(448.dp)
-                    .padding(top = 112.dp)
-                    .padding(start = 16.dp)
-            )
-
-            val headline = buildAnnotatedString {
-                append("Please create\nyour first\n")
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("workout!")
-                }
+        val headline = buildAnnotatedString {
+            append("Please create your\nfirst ")
+            withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                append("workout!")
             }
-            Text(
-                headline,
-                style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier.padding(16.dp)
-            )
         }
+        Text(
+            headline,
+            style = MaterialTheme.typography.headlineLarge,
+            textAlign = TextAlign.Center
+        )
+        Image(
+            painter = painterResource(id = R.drawable.img_workout),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .height(448.dp)
+        )
+
         FilledTonalButton(
             onClick = {
-                navController.navigate(PortableTrainerDestinations.WORKOUT_CREATE_ROUTE)
-            },
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 32.dp)
+                onCallToActionClick()
+            }
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
@@ -170,29 +140,6 @@ fun WorkoutsListScreen(
     }
 
 }
-
-@Composable
-fun BottomNavigation() {
-    var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf(
-        Pair("Active Workouts", Icons.Filled.FitnessCenter),
-        Pair("Archive", Icons.Filled.Archive),
-    )
-
-    NavigationBar(
-        containerColor = MaterialTheme.colorScheme.surface,
-        tonalElevation = 0.dp
-    ) {
-        items.forEachIndexed { index, item ->
-            NavigationBarItem(
-                icon = { Icon(item.second, contentDescription = null) },
-                selected = selectedItem == index,
-                onClick = { selectedItem = index }
-            )
-        }
-    }
-}
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -232,7 +179,15 @@ fun WorkoutCard(
                     style = MaterialTheme.typography.bodyMedium,
                 )
             }
-
         }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun WorkoutsEmptyScreenPreview() {
+    PortableTrainerTheme {
+        WorkoutsEmptyScreen {}
     }
 }

@@ -11,11 +11,15 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -23,9 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import tech.gusgol.core.model.WorkoutIcon
-import tech.gusgol.portabletrainer.ui.home.BottomNavigation
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
-import tech.gusgol.portabletrainer.ui.workouts.create.CreateWorkoutUiState
 
 
 @Preview(showBackground = true)
@@ -51,7 +53,8 @@ enum class CreateWorkoutSteps {
 @Composable
 fun CreateWorkoutScreen(
     createState: CreateWorkoutUiState,
-    onCreateClicked: (String, WorkoutIcon) -> Unit
+    onCreateClicked: (String, WorkoutIcon) -> Unit,
+    onBackClick: () -> Unit
 ) {
     var step by remember { mutableStateOf(CreateWorkoutSteps.NAME)}
     var name: String? by rememberSaveable { mutableStateOf(null) }
@@ -64,11 +67,16 @@ fun CreateWorkoutScreen(
                         "Create Workout",
                         style = MaterialTheme.typography.titleLarge
                     )
+                },
+                navigationIcon = {
+                    IconButton(onClick = onBackClick) {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
                 }
             )
-        },
-        bottomBar = {
-            BottomNavigation()
         }
     ) { innerPadding ->
         Box(
@@ -97,6 +105,9 @@ fun CreateWorkoutScreen(
 fun CreateWorkoutName(
     onNameConfirmed: (String) -> Unit
 ) {
+    val confirm: (String) -> Unit = {
+        onNameConfirmed(it.trim())
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -133,12 +144,17 @@ fun CreateWorkoutName(
                 imeAction = ImeAction.Go,
             ),
             keyboardActions = KeyboardActions(
-                onGo = { onNameConfirmed(text) }
+                onGo = { confirm(text) }
             ),
-            modifier = Modifier.padding(horizontal = 16.dp)
+            textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
+            modifier = Modifier.padding(horizontal = 16.dp).onFocusChanged {
+                if (it.isFocused) {
+                    text = " "
+                }
+            }
         )
         FilledTonalButton(
-            onClick = { onNameConfirmed(text) },
+            onClick = { confirm(text) },
             enabled = text.isNotBlank(),
             modifier = Modifier.padding(top = 32.dp),
         ) {
