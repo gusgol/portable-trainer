@@ -48,7 +48,7 @@ fun ArchivedWorkoutsScreen(
             when(workoutsUiState) {
                 WorkoutsUiState.Error -> WorkoutsErrorScreen()
                 WorkoutsUiState.Loading -> WorkoutsLoadingScreen()
-                WorkoutsUiState.Loading -> Text("Empty")
+                WorkoutsUiState.Empty -> Text("Empty")
                 is WorkoutsUiState.Success -> ArchivedWorkoutsList(workoutsUiState.workouts) {
                     navController.navigate("${WorkoutDetailDestination.route}/${it.uid}")
                 }
