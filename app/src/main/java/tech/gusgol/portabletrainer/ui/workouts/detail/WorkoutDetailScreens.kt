@@ -334,11 +334,17 @@ fun ExerciseCard(exercise: Exercise) {
                 Text(text = "Name", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
                 Text(text = exercise.name, style = MaterialTheme.typography.bodyLarge)
             }
-            ExerciseInfo(name = "Sets", value = exercise.sets.toString())
-            Spacer(Modifier.width(8.dp))
-            ExerciseInfo(name = "Reps", value = exercise.reps.toString())
-            Spacer(Modifier.width(8.dp))
-            ExerciseInfo(name = "Wgt.", value = exercise.weight.toString())
+            exercise.sets?.let {
+                ExerciseInfo(name = "Sets", value = it.toString())
+            }
+            exercise.reps?.let {
+                Spacer(Modifier.width(8.dp))
+                ExerciseInfo(name = "Reps", value = it.toString())
+            }
+            exercise.weight?.let {
+                Spacer(Modifier.width(8.dp))
+                ExerciseInfo(name = "Wgt.", value = it.toString())
+            }
         }
     }
 }
