@@ -338,7 +338,7 @@ fun ExerciseCard(exercise: Exercise) {
             Spacer(Modifier.width(8.dp))
             ExerciseInfo(name = "Reps", value = exercise.reps.toString())
             Spacer(Modifier.width(8.dp))
-            ExerciseInfo(name = "Kg.", value = exercise.weight.toString())
+            ExerciseInfo(name = "Wgt.", value = exercise.weight.toString())
         }
     }
 }
