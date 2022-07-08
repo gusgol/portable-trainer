@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -84,7 +85,7 @@ fun WorkoutDetailScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.action_back)
                         )
                     }
                 },
@@ -93,7 +94,7 @@ fun WorkoutDetailScreen(
                         IconButton(onClick = { }) {
                             Icon(
                                 imageVector = Icons.Filled.Unarchive,
-                                contentDescription = "Unarchive"
+                                contentDescription = stringResource(R.string.action_unarchive)
                             )
                         }
                     } else {
@@ -104,7 +105,7 @@ fun WorkoutDetailScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Archive,
-                                contentDescription = "Archive"
+                                contentDescription = stringResource(R.string.action_archive)
                             )
                         }
                     }
@@ -122,7 +123,7 @@ fun WorkoutDetailScreen(
                         defaultElevation = 0.dp
                     ),
                 ) {
-                    Icon(Icons.Filled.Add, contentDescription = "Create workout")
+                    Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.action_create_workout))
                 }
             }
         }
@@ -162,7 +163,7 @@ fun WorkoutDetailScreen(
                             IconButton(onClick = { submit() }) {
                                 Icon(
                                     imageVector = Icons.Filled.Check,
-                                    contentDescription = "Save"
+                                    contentDescription = stringResource(R.string.action_save)
                                 )
                             }
                         }
@@ -170,7 +171,7 @@ fun WorkoutDetailScreen(
                     PTOutlinedTextField(
                         value = name,
                         onValueChange = { name = it },
-                        label = "Name",
+                        label = stringResource(R.string.title_name),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                         isError = !isFormValid,
                         modifier = Modifier
@@ -185,7 +186,7 @@ fun WorkoutDetailScreen(
                         PTOutlinedTextField(
                             value = sets,
                             onValueChange = { sets = it },
-                            label = "Sets",
+                            label = stringResource(R.string.title_sets),
                             keyboardOptions = KeyboardOptions(
                                 imeAction = ImeAction.Next,
                                 keyboardType = KeyboardType.Number
@@ -197,7 +198,7 @@ fun WorkoutDetailScreen(
                         PTOutlinedTextField(
                             value = reps,
                             onValueChange = { reps = it },
-                            label = "Reps",
+                            label = stringResource(R.string.title_reps),
                             keyboardOptions = KeyboardOptions(
                                 imeAction = ImeAction.Next,
                                 keyboardType = KeyboardType.Number
@@ -209,7 +210,7 @@ fun WorkoutDetailScreen(
                         PTOutlinedTextField(
                             value = weight,
                             onValueChange = { weight = it },
-                            label = "Weight",
+                            label = stringResource(R.string.title_weight),
                             keyboardOptions = KeyboardOptions(
                                 imeAction = ImeAction.Go,
                                 keyboardType = KeyboardType.Number
@@ -228,7 +229,7 @@ fun WorkoutDetailScreen(
         ) {
             when (detailUiState) {
                 is WorkoutDetailUiState.Success -> ExercisesListScreen(exercises = detailUiState.exercises)
-                WorkoutDetailUiState.Error -> Text("Failed to load your workout")
+                WorkoutDetailUiState.Error -> Text(stringResource(R.string.error_load_workout))
                 WorkoutDetailUiState.Loading -> CircularProgressIndicator()
             }
         }
@@ -240,7 +241,7 @@ fun WorkoutDetailScreen(
                 openArchiveDialog.value = false
             },
             text = {
-                Text("Are you sure you want do archive this workout?")
+                Text(stringResource(R.string.msg_archive_prompt))
             },
             confirmButton = {
                 TextButton(
@@ -249,7 +250,7 @@ fun WorkoutDetailScreen(
                         onArchiveClick()
                     }
                 ) {
-                    Text("Yes")
+                    Text(stringResource(R.string.yes))
                 }
             },
             dismissButton = {
@@ -258,7 +259,7 @@ fun WorkoutDetailScreen(
                         openArchiveDialog.value = false
                     }
                 ) {
-                    Text("No")
+                    Text(stringResource(R.string.no))
                 }
             }
         )
@@ -298,12 +299,12 @@ fun ExercisesEmptyScreen() {
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         val headline = buildAnnotatedString {
-            append("You haven't added\nany ")
+            append(stringResource(R.string.msg_you_havent_added_any))
             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                append("exercises")
+                append(stringResource(R.string.msg_exercises))
             }
             append(" ")
-            append("yet!")
+            append(stringResource(R.string.msg_yet))
         }
         Text(
             headline,
@@ -331,19 +332,19 @@ fun ExerciseCard(exercise: Exercise) {
                     .weight(1.0f)
                     .align(CenterVertically)
             ) {
-                Text(text = "Name", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
+                Text(text = stringResource(R.string.title_name), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
                 Text(text = exercise.name, style = MaterialTheme.typography.bodyLarge)
             }
             exercise.sets?.let {
-                ExerciseInfo(name = "Sets", value = it.toString())
+                ExerciseInfo(name = stringResource(R.string.title_sets), value = it.toString())
             }
             exercise.reps?.let {
                 Spacer(Modifier.width(8.dp))
-                ExerciseInfo(name = "Reps", value = it.toString())
+                ExerciseInfo(name = stringResource(R.string.title_reps), value = it.toString())
             }
             exercise.weight?.let {
                 Spacer(Modifier.width(8.dp))
-                ExerciseInfo(name = "Wgt.", value = it.toString())
+                ExerciseInfo(name = stringResource(R.string.title_wgt_abbreviation), value = it.toString())
             }
         }
     }

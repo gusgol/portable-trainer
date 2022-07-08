@@ -60,8 +60,8 @@ class WorkoutDetailViewModel @Inject constructor(
     fun archive() {
         (uiState.value as? WorkoutDetailUiState.Success)?.let {
             viewModelScope.launch {
+                // TODO simplify this part
                 val result = archiveWorkoutUseCase(it.workout)
-                Log.e("Result", result.toString())
             }
         }
     }

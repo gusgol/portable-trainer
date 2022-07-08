@@ -21,12 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import tech.gusgol.core.model.WorkoutIcon
+import tech.gusgol.portabletrainer.R
 import tech.gusgol.portabletrainer.ui.theme.PortableTrainerTheme
 
 
@@ -64,7 +66,7 @@ fun CreateWorkoutScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Create Workout",
+                        stringResource(R.string.action_create_workout),
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
@@ -72,7 +74,7 @@ fun CreateWorkoutScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.action_back)
                         )
                     }
                 }
@@ -115,7 +117,7 @@ fun CreateWorkoutName(
     ) {
         var text by rememberSaveable { mutableStateOf("") }
         Text(
-            "What do you\nwant to call it?",
+            stringResource(R.string.msg_what_do_you_want_to_call_it),
             style = MaterialTheme.typography.displaySmall,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp)
@@ -126,7 +128,7 @@ fun CreateWorkoutName(
             maxLines = 1,
             placeholder = {
                 Text(
-                    "e.g. Workout A, leg day, etc",
+                    stringResource(R.string.title_workout_name_sample),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.outline,
                     textAlign = TextAlign.Center,
@@ -147,11 +149,13 @@ fun CreateWorkoutName(
                 onGo = { confirm(text) }
             ),
             textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
-            modifier = Modifier.padding(horizontal = 16.dp).onFocusChanged {
-                if (it.isFocused) {
-                    text = " "
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .onFocusChanged {
+                    if (it.isFocused) {
+                        text = " "
+                    }
                 }
-            }
         )
         FilledTonalButton(
             onClick = { confirm(text) },
@@ -159,7 +163,7 @@ fun CreateWorkoutName(
             modifier = Modifier.padding(top = 32.dp),
         ) {
             Text(
-                "Next", style = MaterialTheme.typography.bodyLarge
+                stringResource(R.string.action_next), style = MaterialTheme.typography.bodyLarge
             )
         }
     }
@@ -177,7 +181,7 @@ fun CreateWorkoutIcon(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            "Pick an icon!",
+            stringResource(R.string.title_pick_icon),
             style = MaterialTheme.typography.displaySmall,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -228,7 +232,7 @@ fun CreateWorkoutIcon(
             modifier = Modifier.padding(top = 32.dp)
         ) {
             Text(
-                "Create", style = MaterialTheme.typography.bodyLarge
+                stringResource(R.string.action_create), style = MaterialTheme.typography.bodyLarge
             )
         }
     }

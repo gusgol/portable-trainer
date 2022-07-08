@@ -1,10 +1,39 @@
 <resources>
     <string name="app_name">Portable Trainer</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- Titles -->
     <string name="title_nav_active_workouts">Active Workouts</string>
     <string name="title_nav_archived_workouts">Archived Workouts</string>
+    <string name="title_name">Name</string>
+    <string name="title_sets">Sets</string>
+    <string name="title_reps">Reps</string>
+    <string name="title_weight">Weight</string>
+    <string name="title_wgt_abbreviation">Wgt.</string>
+    <string name="title_workout_name_sample">e.g. Workout A, leg day, etc</string>
+    <string name="title_pick_icon">Pick an icon!</string>
+
+    <!-- Messages -->
+    <string name="msg_archive_prompt">Are you sure you want do archive this workout?</string>
+    <string name="msg_you_havent_added_any">You haven\'t added\nany&#160;</string>
+    <string name="msg_exercises">exercises</string>
+    <string name="msg_yet">yet</string>
+    <string name="msg_what_do_you_want_to_call_it">What do you\nwant to call it?</string>
+    <string name="msg_create_your_first">Please create your\nfirst&#160;</string>
+    <string name="msg_workout_exclamation">workout!</string>
+
+    <!-- Actions -->
+    <string name="action_back">Back</string>
+    <string name="action_unarchive">Unarchive</string>
+    <string name="action_archive">Archive</string>
+    <string name="action_create_workout">Create workout</string>
+    <string name="action_save">Save</string>
+    <string name="action_next">Next</string>
+    <string name="action_create">Create</string>
 
     <!-- Errors -->
     <string name="error_retrieve_workouts">Unable to retrieve your workouts</string>
+    <string name="error_load_workout">Failed to load your workout</string>
+
 </resources>

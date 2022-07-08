@@ -59,7 +59,7 @@ fun ActiveWorkoutsScreen(
                         onCreateWorkout()
                     },
                 ) {
-                    Icon(Icons.Filled.Add, contentDescription = "Create workout")
+                    Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.action_create_workout))
                 }
             }
         }
@@ -90,9 +90,9 @@ fun WorkoutsEmptyScreen(
             .verticalScroll(scrollableState),
     ) {
         val headline = buildAnnotatedString {
-            append("Please create your\nfirst ")
+            append(stringResource(R.string.msg_create_your_first))
             withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                append("workout!")
+                append(stringResource(R.string.msg_workout_exclamation))
             }
         }
         Text(
@@ -119,7 +119,7 @@ fun WorkoutsEmptyScreen(
                 modifier = Modifier.padding(end = 4.dp)
             )
             Text(
-                "Create", style = MaterialTheme.typography.bodyLarge
+                stringResource(R.string.action_create), style = MaterialTheme.typography.bodyLarge
             )
         }
     }
